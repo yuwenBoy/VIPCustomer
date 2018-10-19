@@ -1,0 +1,184 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>经销店联系人- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.4.6.0.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrapValidator.css" rel="stylesheet" />
+    <style type="text/css">
+        .style_01 {
+            float: left;
+            margin-left: 20px;
+        }
+
+        .backcolor {
+            background-color: #1beecb !important;
+        }
+
+        .table {
+            table-layout: fixed;
+        }
+
+        td {
+            width: 100%;
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap; /* 不换行 */
+            overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+            text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用*/
+        }
+    </style>
+</head>
+<body>
+    <div class="ibox-title">
+        <h5>经销店联系人信息</h5>
+        <div class="ibox-tools">
+        </div>
+    </div>
+    <div class="ibox-content">
+        <!--------------------------搜索部分---------------------------->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="text-align:right;font-weight:300;">
+                    <a style="float:left;margin-left:0px;margin-top:-5px;"><i class="fa fa-glass"></i>查询内容</a>
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseOne">
+                        <i class="fa fa-chevron-down"></i>
+                    </a>
+                    <a href="javascript:(0)" onclick="SearchInfo();" style="float:left;margin-left:1200px;">
+                        <i class="fa fa-search"></i> 查询
+                    </a>
+                    <a href="javascript:(0)" onclick="reset();" class="style_01">
+                        <i class="fa  fa-minus-circle"></i> 重置
+                    </a>
+                    <a href="javascript:(0)" onclick="AddDetail();" class="style_01">
+                        <i class="fa fa-plus"></i> 添加
+                    </a>
+                    <a href="javascript:(0)" onclick="EditDetail();" class="style_01">
+                        <i class="fa fa-pencil"></i>编辑
+                    </a>
+                    <a href="javascript:(0)" onclick="DeleteDetail();" class="style_01">
+                        <i class="fa fa-minus"></i>删除
+                    </a>
+                    <a href="javascript:(0)" onclick="$.load();" class="style_01">
+                        <i class="fa fa-refresh"></i>刷新
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <form id="searchForm">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" style="margin-top:10px;">姓名：</label>
+                            <div class="col-sm-2" style="margin-left:-50px;">
+                                <input name="Name" type="text" class="form-control" />
+                            </div>
+                            <label class="col-sm-1 control-label" style="margin-top:10px;">职务：</label>
+                            <div class="col-sm-2" style="margin-left:-50px;">
+                                <select class="form-control m-b" name="JobID">
+                                    <option value="-1">==请选择==</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--------------------------搜索部分---------------------------->
+        <!--------------------------列表部分---------------------------->
+        <table class="table table-hover" id="TbDC"></table>
+        <!--------------------------列表部分---------------------------->
+        <!--------------------------添加/修改信息的弹出层---------------------------->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+            <div class="modal-dialog  modal-lg" role="document">
+                <div class="modal-content">
+                    <form class="form-horizontal" id="Form1" action="../../IServer/Dealer/Dealer.ashx?action=SaveDealerContact">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">
+                                <i class="icon-pencil"></i>
+                                <span id="lblAddTitle" style="font-weight:bold">添加</span>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="ds_host">所属经销店：</label>
+                                <div class="col-md-4">
+                                    <input class="form-control" type="text" name="DealerName" readonly />
+                                </div>
+                                <input class="form-control" type="text" name="DealerId" style="display:none;" />
+                                <label class="col-md-2 control-label" for="ds_host">姓名：</label>
+                                <div class="col-md-4">
+                                    <input class="form-control" type="text" name="fr_Name"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">职务：</label>
+                                <div class="col-md-4">
+                                    <select class="form-control m-b" name="fr_JobID">
+                                    </select>
+                                </div>
+                                <label class="col-md-2 control-label">电话：</label>
+                                <div class="col-md-4">
+                                    <input class="form-control" type="text" name="Phone"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">移动电话：</label>
+                                <div class="col-md-4">
+                                    <input class="form-control" type="text" name="MobileTel" />
+                                </div>
+                                <label class="col-md-2 control-label">传真：</label>
+                                <div class="col-md-4">
+                                    <input class="form-control" type="text" name="Fax" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">电子信箱：</label>
+                                <div class="col-md-4">
+                                    <input class="form-control" type="text" name="Email"/>
+                                </div>
+                                <label class="col-md-2 control-label">其他联系方式：</label>
+                                <div class="col-md-4">
+                                    <input class="form-control" type="text" name="OtherContactInfo" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">备注：</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="Remark"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="HidId" name="HidId" value="0" />
+                        <div class="modal-footer" style="text-align:center;">
+                            <button type="submit" id="btn_submit" class="btn btn-primary btn-sm">
+                                确定
+                            </button>
+                            <button type="reset" class="btn btn-default btn-sm" id="btnClose">
+                                取消
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--------------------------添加/修改信息的弹出层---------------------------->
+        <!--------------------------设置车型的弹出层---------------------------->
+    </div>
+</body>
+</html>
+<script src="../../Content/js/jquery3.min.js"></script>
+<script src="../../Content/js/bootstrap.min.js"></script>
+<script src="../../Content/css/bootstrap-table.min.js"></script>
+<script src="../../Content/css/bootstrap-table-zh-CN.min.js"></script>
+<script src="../../Content/js/bootstrapValidator.js"></script>
+<script src="../../Static/script/Common.js"></script>
+<script src="../../Content/layer/layer.js"></script>
+<script src="../../Static/script/DealerContact.js"></script>

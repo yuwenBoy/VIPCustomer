@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>订单管理- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../Content/css/ui.jqgrid.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>订单信息</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="form-group">
+                <button id="btnAdd" type="button" class="btn btn-primary "><i class="fa fa-plus"></i>&nbsp;添加</button>
+                <button id="btnEdit" type="button" class="btn btn-info "><i class="fa fa-pencil"></i> 编辑</button>
+                <button id="btnDel" type="button" class="btn btn-danger " onclick="DeleteData()">
+                    <i class="fa fa-remove"></i>&nbsp;&nbsp;<span class="bold">作废订单</span>
+                </button>
+                <button id="btnSubmit" type="button" class="btn btn-info " onclick="SubmitData();"><i class="fa fa-arrow-circle-right"></i> 提交订单</button>
+                <button id="btnPrintConfirm" class="btn btn-warning" onclick="ConfirmPrint('confirm');"><i class="fa fa-print"></i> 打印需求确认函</button>
+            </div>
+            <div class="form-group">
+                <label class="col-md-1 control-label" style="margin-top:10px;">查询条件:</label>
+                <div class="col-md-2" style="margin-left:-70px;">
+                    <input name="Code" type="text" class="form-control" placeholder="查询订单编号或客户名称" title="输入订单编号或客户名称" />
+                </div>
+                <label class="col-md-1 control-label" style="margin-top:10px;">订单状态:</label>
+                <div class="col-md-2" style="margin-left:-70px;">
+                    <select class="form-control m-b" name="cboOrderState">
+                        <option value="-1">--请选择订单状态--</option>
+                        <option value="-500">所有订单</option>
+                        <option value="0">未提交订单</option>
+                        <option value="200">大客户室审核</option>
+                        <option value="-200">大客户室驳回</option>
+                        <option value="300">审核通过</option>
+                        <option value="1000">完成订单</option>
+                        <option value="-1000">作废订单</option>
+                    </select>
+                </div>
+                <span class="input-group-btn">
+                    <button id="btnSearch" class="btn btn btn-primary" type="button"> <i class="fa fa-search"></i> 查询</button>
+                </span>
+            </div>
+            <div class="jqGrid_wrapper">
+                <table id="table_list"></table>
+                <div id="pager_list"></div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="opType" value="" />
+</body>
+</html>
+<script src="../../Content/js/jquery.min.js"></script>
+<script src="../../Content/js/bootstrap.min.js"></script>>
+<script src="../../Content/js/jquery.jqGrid.min.js"></script>
+<script src="../../Content/js/grid.locale-cn.js"></script>
+<script src="../../Static/script/CreateOrder.js"></script>
+<script src="../../Content/layer/layer.js"></script>
+<script src="../../Static/script/Common.js"></script>

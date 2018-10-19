@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>模块维护- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <script src="../../Content/js/jquery3.min.js"></script>
+    <script src="../../Content/js/bootstrap.min.js"></script>
+    <script src="../../Static/script/Common.js"></script>
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.4.6.0.css" rel="stylesheet" />
+    <link href="../../Content/css/demo_page.css" rel="stylesheet" />
+    <link href="../../Content/css/demo_table.css" rel="stylesheet" />
+    <link href="../../Content/css/DT_bootstrap.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+    <link href="../../Content/metroStyle/metroStyle.css" rel="stylesheet" />
+    <script src="../../Content/js/jquery.dataTables.js"></script>
+    <script src="../../Content/js/DT_bootstrap.js"></script>
+    <script src="../../Content/layer/layer.js"></script>
+    <script src="../../Content/js/jquery.ztree.core.min.js"></script>
+    <script src="../../Static/script/SysModule.js"></script>
+    <style type="text/css">
+        .style_01 {
+            float: left;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="col-lg-9">
+        <div class="ibox-title">
+            <h5>模块信息列表</h5>
+            <div class="ibox-tools">
+            </div>
+        </div>
+        <div class="ibox-content" style="padding:5px 0 0;height:500px;">
+            <!--------------------------搜索部分---------------------------->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title" style="text-align:right;font-weight:300;">
+                        <a href="javascript:(0)" onclick="expandAllNodes();" style="float:left;margin-left:20px;">
+                            <i class="fa fa-expand">
+                                展开
+                            </i>
+                        </a>
+                        <a href="javascript:(0)" onclick="closeAllNodes()" class="style_01">
+                            <i class="fa fa-compress">
+                                收起
+                            </i>
+                        </a>
+                        <div class="btn-group" style="float:left;">
+                            <a href="javascript:(0)" style="color:white;" data-toggle="dropdown" class="style_01 green dropdown-toggle">
+                                添加<span class="caret"> </span>
+                                <ul role="menu" class="dropdown-menu" style="color:#000;">
+                                    <li>
+                                        <a href="javascript:void(0)" onclick="ShowDetail(1)">
+                                            添加同级模块
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" onclick="ShowDetail(2)">
+                                            添加子级模块
+                                        </a>
+                                    </li>
+                                </ul>
+                            </a>
+                        </div>
+                        <a id="moduleEdit" href="javascript:(0)" onclick="ShowDetail(3);" class="style_01" authorize="yes">
+                            <i class="fa fa-pencil"></i>编辑
+                        </a>
+                        <a id="ModuleDel" href="javascript:(0)" onclick="DeleteTree();" class="style_01" authorize="yes">
+                            <i class="fa fa-trash-o"></i> 删除
+                        </a>
+                        <a id="ModuleMove" href="javascript:(0)" onclick="ShowMoveTree();" class="style_01" authorize="yes">
+                            <i class="fa fa-arrow-right"></i> 移至
+                        </a>
+
+                        <a id="ModuleCtrl" href="javascript:(0)" onclick="ShowEast();" class="style_01" authorize="yes">
+                            <i class="fa fa-wrench"></i> 设定模块控制项
+                        </a>
+                        <a data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseOne">
+                            <i class="fa fa-chevron-down"></i>
+                        </a>
+                        <script>$('.panel-title').authorizeButton()</script>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body" style="height:700px;overflow:auto;padding:5px;">
+                        <div id="FlatTree" class="tree tree-plus-minus ztree">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--------------------------设置角色模块控制权限页面部分---------------------------->
+    <div class="col-lg-3">
+        <div class="ibox-title">
+            <h5>模块控制</h5>
+            <div class="ibox-tools">
+            </div>
+        </div>
+        <div class="ibox-content" style="padding:5px 0 0;">
+            <!--------------------------搜索部分---------------------------->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title" style="text-align:right;font-weight:300;">
+                        <a id="controlAdd" href="javascript:(0)" onclick="MC.showDetail(1);" class="style_01" authorize="yes">
+                            <i class="fa fa-plus"></i> 添加
+                        </a>
+                        <a id="controlEdit" href="javascript:(0)" onclick="MC.showDetail(3);" class="style_01" authorize="yes">
+                            <i class="fa fa-pencil"></i> 编辑
+                        </a>
+                        <a id="controlDel" href="javascript:(0)" onclick="MC.deleteControl();" class="style_01" authorize="yes">
+                            <i class="fa fa-trash-o"></i> 删除
+                        </a>
+                        <a data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseOne">
+                            <i class="fa fa-chevron-down"></i>
+                        </a>
+                        <script>$('.panel-title').authorizeButton()</script>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body" style="height:700px;overflow:auto;padding:5px;">
+                        <table class="display table table-bordered table-striped" id="tableModuleCommand" style="margin-left:1px;margin-right:1px;margin-top:10px;">
+                            <thead>
+                                <tr>
+                                    <th style="display:none;">PKID</th>
+                                    <th>功能标识</th>
+                                    <th>功能名称</th>
+                                    <th>备注</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--------------------------设置角色模块控制权限页面部分---------------------------->
+    <input type="hidden" id="opType" name="opType" value="" />
+    <input type="hidden" id="opTypeMC" name="opTypeMC" value="" />
+    <input type="hidden" id="moduleID" name="moduleID" value="" />
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        InitTree();
+        $('.col-lg-3').hide();
+        $('.col-lg-9').css('width', 100 + '%');
+    })
+</script>

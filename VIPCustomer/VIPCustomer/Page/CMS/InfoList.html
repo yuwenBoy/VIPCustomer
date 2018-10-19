@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>用户维护- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <script src="../../Content/js/jquery-2.1.1.min.js"></script>
+    <script src="../../Content/js/bootstrap.min.js"></script>
+    <script src="../../Static/script/Common.js"></script>
+    <script src="../../Content/DatePicker/WdatePicker.js"></script>
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.4.6.0.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+    <link href="../../Content/select2/select2.min.css" rel="stylesheet" />
+    <script src="../../Content/select2/select2.min.js"></script>
+    <script src="../../Static/framework-ui.js"></script>
+    <link href="../../Content/css/bootstrapValidator.css" rel="stylesheet" />
+    <style type="text/css">
+        .style_01 {
+            float: left;
+            margin-left: 20px;
+        }
+
+        .backcolor {
+            background-color: #1beecb !important;
+        }
+
+        .table {
+            table-layout: fixed;
+        }
+
+        td {
+            width: 100%;
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap; /* 不换行 */
+            overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+            text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用*/
+        }
+    </style>
+</head>
+<body>
+    <div class="ibox-title">
+        <h5>信息列表</h5>
+        <div class="ibox-tools">
+        </div>
+    </div>
+    <div class="ibox-content">
+        <!--------------------------搜索部分---------------------------->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="text-align:right;font-weight:300;">
+                    <a style="float:left;margin-left:0px;margin-top:-5px;"><i class="fa fa-glass"></i>查询内容</a>
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseOne">
+                        <i class="fa fa-chevron-down"></i>
+                    </a>
+                    <a id="btnAdd" href="javascript:(0)" onclick="AddDetail();" style="float:left;margin-left:1300px;" authorize="yes">
+                        <i class="fa fa-plus"></i> 添加
+                    </a>
+                    <a id="btnEdit" href="javascript:(0)" onclick="EditDetail();" class="style_01" authorize="yes">
+                        <i class="fa fa-pencil"></i>编辑
+                    </a>
+                    <a id="btnDelete" href="javascript:(0)" onclick="DeleteDetail();" class="style_01" authorize="yes">
+                        <i class="fa fa-minus"></i>删除
+                    </a>
+                    <script>$('.panel-title').authorizeButton()</script>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <form id="searchForm">
+                        <div class="form-group">
+                            <label class="col-md-1 control-label" style="margin-top:10px;">类型：</label>
+                            <div class="col-md-2" style="margin-left:-100px;margin-top:3px;">
+                                <select class="form-control m-b" name="TypeId" id="TypeId">
+                                    <option value="-1">--请选择--</option>
+                                </select>
+                            </div>
+                            <label class="col-md-1 control-label" style="margin-top:10px;">标题:</label>
+                            <div class="col-md-2" style="margin-left:-70px;">
+                                <input name="Title" type="text" class="form-control" />
+                            </div>
+                            <label class="col-md-1 control-label" style="margin-top:10px;">开始时间：</label>
+                            <div class="col-md-2" style="margin-left:-70px;">
+                                <input name="LoginName" type="text" class="form-control" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+                            </div>
+                            <label class="col-md-1 control-label" style="margin-top:10px;">结束时间：</label>
+                            <div class="col-md-2" style="margin-left:-70px;">
+                                <input name="LoginName" type="text" class="form-control" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+                            </div>
+                            <button id="btnSearch" class="btn btn btn-primary" type="button"> <i class="fa fa-search"></i> 查询</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--------------------------搜索部分---------------------------->
+        <!--------------------------列表部分---------------------------->
+        <table class="table table-hover" id="TbDC"></table>
+        <!--------------------------列表部分---------------------------->
+        <!--------------------------添加/修改信息的弹出层---------------------------->
+        <div class="modal fade" id="myModal" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form class="form-horizontal" id="Form1" action="../../IServer/Info/InfoHandler.ashx?action=addRecord">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">
+                                <i class="icon-pencil"></i>
+                                <span id="lblAddTitle" style="font-weight:bold">详细信息</span>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">类型：</label>
+                                <div class="col-md-4">
+                                    <select class="form-control m-b" name="fr_TypeId" id="fr_TypeId"></select>
+                                </div>
+                                <label class="col-md-2 control-label">紧急程度：</label>
+                                <div class="col-md-4">
+                                    <select class="form-control m-b" name="EmergencyDegreeID" id="EmergencyDegreeID"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">生效日期：</label>
+                                <div class="col-md-4">
+                                    <input class="form-control" type="text" name="fr_InDate" id="fr_InDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+                                </div>
+                                <label class="col-md-2 control-label" for="ds_host">失效日期：</label>
+                                <div class="col-md-4">
+                                    <input class="form-control" type="text" name="fr_OutDate" id="fr_OutDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">标题：</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" name="fr_Title" id="fr_Title" placeholder="请输入标题内容" required="" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">内容：</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="Contents" id="Contents" style="height:240px;"></textarea>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-default btn-sm" style="margin-left:95px;">
+                                设定发布的经销店
+                            </button>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">正文附加：</label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" name="Email" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">其他附加：</label>
+                                <div class="col-md-5">
+                                    <input class="form-control" type="text" name="Email" />
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="HidId" name="HidId" value="0" />
+                        <div class="modal-footer" style="text-align:center;" id="Oper1">
+                            <button type="submit" id="btn_submit" class="btn btn-primary btn-md" disabled>
+                                添加
+                            </button>
+                            <button type="reset" class="btn btn-default btn-md" onclick="resetForm()">
+                                重置
+                            </button>
+                        </div>
+                        <div class="modal-footer" style="text-align:center;" id="Oper2">
+                            <button type="button" id="btn_update" class="btn btn-primary btn-md" onclick="updateRecord();">
+                                保存
+                            </button>
+                            <button type="reset" class="btn btn-default btn-md" onclick="resetForm()">
+                                取消
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--------------------------添加/修改信息的弹出层---------------------------->
+    </div>
+</body>
+</html>
+<script src="../../Content/css/bootstrap-table.min.js"></script>
+<script src="../../Content/css/bootstrap-table-zh-CN.min.js"></script>
+<script src="../../Content/js/bootstrapValidator.js"></script>
+<script src="../../Content/layer/layer.js"></script>
+<script src="../../Static/script/infoList.js"></script>

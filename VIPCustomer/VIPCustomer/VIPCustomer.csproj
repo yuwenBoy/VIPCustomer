@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F4E766A4-57BE-4E5D-96C0-58ABACC454BC}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VIPCustomer</RootNamespace>
+    <AssemblyName>VIPCustomer</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode>true</IISExpressUseClassicPipelineMode>
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\css\bootstrap-table.min.js" />
+    <Content Include="Content\css\animate.min.css" />
+    <Content Include="Content\css\bootstrap-reset.css" />
+    <Content Include="Content\css\bootstrap-select.min.css" />
+    <Content Include="Content\css\bootstrap-table-zh-CN.min.js" />
+    <Content Include="Content\css\bootstrap-table.css" />
+    <Content Include="Content\css\bootstrap-table.min.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrapValidator.css" />
+    <Content Include="Content\css\demo_page.css" />
+    <Content Include="Content\css\demo_table.css" />
+    <Content Include="Content\css\DT_bootstrap.css" />
+    <Content Include="Content\css\font-awesome.4.6.0.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\framework-theme.css" />
+    <Content Include="Content\css\login.css" />
+    <Content Include="Content\css\style-responsive.css" />
+    <Content Include="Content\css\style.css" />
+    <Content Include="Content\css\style.min.css" />
+    <Content Include="Content\css\ui.jqgrid.css" />
+    <Content Include="Content\DatePicker\calendar.js" />
+    <Content Include="Content\DatePicker\lang\en.js" />
+    <Content Include="Content\DatePicker\lang\zh-cn.js" />
+    <Content Include="Content\DatePicker\lang\zh-tw.js" />
+    <Content Include="Content\DatePicker\skin\datePicker.gif" />
+    <Content Include="Content\DatePicker\skin\default\datepicker.css" />
+    <Content Include="Content\DatePicker\skin\default\img.gif" />
+    <Content Include="Content\DatePicker\skin\WdatePicker.css" />
+    <Content Include="Content\DatePicker\skin\whyGreen\bg.jpg" />
+    <Content Include="Content\DatePicker\skin\whyGreen\datepicker.css" />
+    <Content Include="Content\DatePicker\skin\whyGreen\img.gif" />
+    <Content Include="Content\DatePicker\WdatePicker.js" />
+    <Content Include="Content\DatePicker\开发包\lang\en.js" />
+    <Content Include="Content\DatePicker\开发包\lang\zh-cn.js" />
+    <Content Include="Content\DatePicker\开发包\lang\zh-tw.js" />
+    <Content Include="Content\DatePicker\开发包\readme.txt" />
+    <Content Include="Content\DatePicker\开发包\skin\datePicker.gif" />
+    <Content Include="Content\DatePicker\开发包\skin\default\datepicker.css" />
+    <Content Include="Content\DatePicker\开发包\skin\default\img.gif" />
+    <Content Include="Content\DatePicker\开发包\skin\WdatePicker.css" />
+    <Content Include="Content\DatePicker\开发包\skin\whyGreen\bg.jpg" />
+    <Content Include="Content\DatePicker\开发包\skin\whyGreen\datepicker.css" />
+    <Content Include="Content\DatePicker\开发包\skin\whyGreen\img.gif" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\arrow-up.png" />
+    <Content Include="Content\images\avatar-mini.jpg" />
+    <Content Include="Content\images\avatar-mini2.jpg" />
+    <Content Include="Content\images\avatar-mini3.jpg" />
+    <Content Include="Content\images\avatar-mini4.jpg" />
+    <Content Include="Content\images\avatar1_small.jpg" />
+    <Content Include="Content\images\icon-color-close.png" />
+    <Content Include="Content\images\icon-ext.png" />
+    <Content Include="Content\images\icon.png" />
+    <Content Include="Content\images\loading-0.gif" />
+    <Content Include="Content\images\loading-1.gif" />
+    <Content Include="Content\images\loading-2.gif" />
+    <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\lock-bg.jpg" />
+    <Content Include="Content\images\nav-expand.png" />
+    <Content Include="Content\images\portlet-collapse-icon-white.png" />
+    <Content Include="Content\images\portlet-collapse-icon.png" />
+    <Content Include="Content\images\portlet-config-icon-white.png" />
+    <Content Include="Content\images\portlet-reload-icon-white.png" />
+    <Content Include="Content\images\portlet-remove-icon-white.png" />
+    <Content Include="Content\images\search-icon.png" />
+    <Content Include="Content\images\sort_both.png" />
+    <Content Include="Content\images\sort_desc.png" />
+    <Content Include="Content\images\temp-bg.jpg" />
+    <Content Include="Content\images\tree-icons.png" />
+    <Content Include="Content\js\bootstrap-select.min.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\bootstrapValidator.js" />
+    <Content Include="Content\js\common-scripts.js" />
+    <Content Include="Content\js\DT_bootstrap.js" />
+    <Content Include="Content\js\grid.locale-cn.js" />
+    <Content Include="Content\js\jquery-ui-min.js" />
+    <Content Include="Content\js\jquery-2.1.1.min.js" />
+    <Content Include="Content\js\jquery.cookie.js" />
+    <Content Include="Content\js\content-min.js" />
+    <Content Include="Content\layui\common.js" />
+    <Content Include="Content\layui\layui.js" />
+    <Content Include="Content\layui\LeftTab.js" />
+    <Content Include="Content\css\jquery.contextMenu.css" />
+    <Content Include="Content\js\jquery.contextMenu.min.js" />
+    <Content Include="Content\select2\select2.min.css" />
+    <Content Include="Content\select2\select2.min.js" />
+    <Content Include="Page\CMS\InfoListRead.html" />
+    <Content Include="Page\CommonPage\NoRight.html" />
+    <Content Include="Page\Home.html" />
+    <Content Include="Static\framework-ui.js" />
+    <Content Include="Static\indextab.js" />
+    <Content Include="Content\js\jquery.dataTables.js" />
+    <Content Include="Content\js\jquery.dcjqaccordion.2.7.js" />
+    <Content Include="Content\js\jquery.jqGrid.min.js" />
+    <Content Include="Content\js\jquery.leoweather.min.js" />
+    <Content Include="Content\js\jquery.min.js" />
+    <Content Include="Content\js\jquery.nicescroll.js" />
+    <Content Include="Content\js\jquery.scrollTo.min.js" />
+    <Content Include="Content\js\jquery.validate.min.js" />
+    <Content Include="Content\js\jquery.ztree.core.min.js" />
+    <Content Include="Content\js\jquery.ztree.excheck.min.js" />
+    <Content Include="Content\js\jquery3.min.js" />
+    <Content Include="Content\js\messages_zh.min.js" />
+    <Content Include="Content\js\respond.min.js" />
+    <Content Include="Content\js\vue.min.js" />
+    <Content Include="Content\layer\layer.js" />
+    <Content Include="Content\layer\mobile\layer.js" />
+    <Content Include="Content\layer\mobile\need\layer.css" />
+    <Content Include="Content\layer\skin\default\icon-ext.png" />
+    <Content Include="Content\layer\skin\default\icon.png" />
+    <Content Include="Content\layer\skin\default\layer.css" />
+    <Content Include="Content\layer\skin\default\loading-0.gif" />
+    <Content Include="Content\layer\skin\default\loading-1.gif" />
+    <Content Include="Content\layer\skin\default\loading-2.gif" />
+    <Content Include="Content\metroStyle\img\line_conn.png" />
+    <Content Include="Content\metroStyle\img\loading.gif" />
+    <Content Include="Content\metroStyle\img\metro.gif" />
+    <Content Include="Content\metroStyle\img\metro.png" />
+    <Content Include="Content\metroStyle\metroStyle.css" />
+    <Content Include="Content\video\video1.mp4" />
+    <Content Include="Home.html" />
+    <Content Include="Login.html" />
+    <Content Include="Main.html" />
+    <Content Include="packages.config" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\css\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\css\fonts\k3k702ZOKiLJc3WVjuplzOgdm0LZdjqr5-oayXSOefg.woff2" />
+    <Content Include="Content\css\fonts\MTP_ySUJH_bn48VBG8sNSugdm0LZdjqr5-oayXSOefg %281%29.woff2" />
+    <Content Include="Content\css\fonts\MTP_ySUJH_bn48VBG8sNSugdm0LZdjqr5-oayXSOefg.woff2" />
+    <Content Include="Content\css\fonts\xjAJXh38I15wypJXxuGMBo4P5ICox8Kq3LLUNMylGO4.woff2" />
+    <Content Include="Content\DatePicker\lang\vssver2.scc" />
+    <Content Include="Content\DatePicker\skin\default\vssver2.scc" />
+    <Content Include="Content\DatePicker\skin\vssver2.scc" />
+    <Content Include="Content\DatePicker\skin\whyGreen\vssver2.scc" />
+    <Content Include="Content\DatePicker\vssver2.scc" />
+    <Content Include="Content\DatePicker\开发包\lang\vssver2.scc" />
+    <Content Include="Content\DatePicker\开发包\skin\default\vssver2.scc" />
+    <Content Include="Content\DatePicker\开发包\skin\vssver2.scc" />
+    <Content Include="Content\DatePicker\开发包\skin\whyGreen\vssver2.scc" />
+    <Content Include="Content\DatePicker\开发包\vssver2.scc" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot%40" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot%40v=4.4.0" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg%40v=4.4.0" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf%40v=4.4.0" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff%40v=4.4.0" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2%40v=4.4.0" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot%40" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Page\CMS\InfoList.html" />
+    <Content Include="Page\CommonPage\CarList.html" />
+    <Content Include="Page\CommonPage\CustomerList.html" />
+    <Content Include="Page\CommonPage\DealerList.html" />
+    <Content Include="Page\Exception\404.html" />
+    <Content Include="Page\MajorAccount\CarInfo.html" />
+    <Content Include="Page\MajorAccount\CarResource.html" />
+    <Content Include="Page\MajorAccount\CreateOrder.html" />
+    <Content Include="Page\MajorAccount\CreateOrderEdit.html" />
+    <Content Include="Page\MajorAccount\CreateSale.html" />
+    <Content Include="Page\MajorAccount\Customer.html" />
+    <Content Include="Page\MajorAccount\CustomerEdit.html" />
+    <Content Include="Page\MajorAccount\Dealer.html" />
+    <Content Include="Page\MajorAccount\DealerContact.html" />
+    <Content Include="Page\MajorAccount\Dealerstock.html" />
+    <Content Include="Page\MajorAccount\DicDomain.html" />
+    <Content Include="Page\MajorAccount\ImportCarResource.html" />
+    <Content Include="Page\MajorAccount\OrderOfficeAudit.html" />
+    <Content Include="Page\MajorAccount\OrderProcessDetails.html" />
+    <Content Include="Page\MajorAccount\PayCarDate.html" />
+    <Content Include="Page\MajorAccount\PayCarRecord.html" />
+    <Content Include="Page\MajorAccount\RebatesAudit.html" />
+    <Content Include="Page\MajorAccount\RebatesFirstAudit.html" />
+    <Content Include="Page\SysManage\CityManager.html" />
+    <Content Include="Page\SysManage\ModuleContorlEdit.html" />
+    <Content Include="Page\SysManage\ModuleTree.html" />
+    <Content Include="Page\SysManage\OrdersManager.html" />
+    <Content Include="Page\SysManage\SetPassword.html" />
+    <Content Include="Page\SysManage\SysModule.html" />
+    <Content Include="Page\SysManage\SysModuleEdit.html" />
+    <Content Include="Page\SysManage\SysRole.html" />
+    <Content Include="Page\SysManage\SysUser.html" />
+    <Content Include="Static\framework-clientdata.js" />
+    <Content Include="Static\script\CarInfo.js" />
+    <Content Include="Static\script\CarResource.js" />
+    <Content Include="Static\script\Common.js" />
+    <Content Include="Static\script\CreateOrder.js" />
+    <Content Include="Static\script\CreateSale.js" />
+    <Content Include="Static\script\Customer.js" />
+    <Content Include="Static\script\Dealer.js" />
+    <Content Include="Static\script\DealerContact.js" />
+    <Content Include="Static\script\Dealerstock.js" />
+    <Content Include="Static\script\DicDomain.js" />
+    <Content Include="Static\script\infoList.js" />
+    <Content Include="Static\script\main.js" />
+    <Content Include="Static\script\OrderOfficeAudit.js" />
+    <Content Include="Static\script\OrdersManager.js" />
+    <Content Include="Static\script\PayCarRecord.js" />
+    <Content Include="Static\script\RebatesAudit.js" />
+    <Content Include="Static\script\RebatesFirstAudit.js" />
+    <Content Include="Static\script\SysModule.js" />
+    <Content Include="Static\script\SysRole.js" />
+    <Content Include="Static\script\SysUser.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IServer\Cars\CarsManage.ashx.cs">
+      <DependentUpon>CarsManage.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="IServer\Customer\CusManage.ashx.cs">
+      <DependentUpon>CusManage.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="IServer\Dealer\Dealer.ashx.cs">
+      <DependentUpon>Dealer.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="IServer\Handler1.ashx.cs">
+      <DependentUpon>Handler1.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="IServer\Info\InfoHandler.ashx.cs">
+      <DependentUpon>InfoHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="IServer\OrderManage\OrderManage.ashx.cs">
+      <DependentUpon>OrderManage.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="IServer\SysManage\CarsHandler.ashx.cs">
+      <DependentUpon>CarsHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="IServer\SysManage\SysManage.ashx.cs">
+      <DependentUpon>SysManage.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{56351a6e-7403-449e-8f2d-9a77da1f52eb}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{f68a46dc-8dae-4dcb-bb4c-48047c94fb94}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{cdd47fd2-2bec-4b7d-ab79-2ec5b5b6b142}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.config" />
+    <Content Include="IServer\Handler1.ashx" />
+    <Content Include="IServer\SysManage\SysManage.ashx" />
+    <Content Include="IServer\Dealer\Dealer.ashx" />
+    <Content Include="IServer\SysManage\CarsHandler.ashx" />
+    <Content Include="IServer\OrderManage\OrderManage.ashx" />
+    <Content Include="IServer\Cars\CarsManage.ashx" />
+    <Content Include="IServer\Customer\CusManage.ashx" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="IServer\Info\InfoHandler.ashx" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>5885</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:5885/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

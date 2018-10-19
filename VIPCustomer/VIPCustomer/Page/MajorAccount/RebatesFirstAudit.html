@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>初审返款- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../jqgrid/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../jqgrid/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../jqgrid/css/ui.jqgrid.css" rel="stylesheet" />
+    <link href="../../jqgrid/css/style.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>待审核列表</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content" style="border:0px solid red;height:785px;">
+            <div class="form-group">
+                <label class="col-sm-1 control-label" style="margin-top:10px;">查询条件:</label>
+                <div class="col-sm-1" style="margin-left:-50px;">
+                    <select class="form-control m-b" name="">
+                        <option value="400">未审核</option>
+                        <option value="410">已审核</option>
+                        <option value="1100">已否决</option>
+                    </select>
+                </div>
+                <div class="col-sm-1" style="margin-left:-20px;">
+                    <select class="form-control m-b" name="">
+                        <option value="0">所有单</option>
+                        <option value="1">订单</option>
+                        <option value="2">销售单</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <input name="OrderNo" type="text" class="form-control" placeholder="订单编号或经销店名称" title="订单编号或经销店名称" />
+                </div>
+                <div class="col-sm-2">
+                    <input name="CustomerName" type="text" class="form-control" placeholder="客户名称" title="客户名称" />
+                </div>
+                <button id="btnSearch" class="btn btn btn-primary" type="button"> <i class="fa fa-search"></i> 查询</button>
+                <button id="btnSubmit" type="button" class="btn btn-info " onclick="SubmitData();">导出无格式Excel</button>
+                <button id="btnPrintConfirm" class="btn btn-warning" onclick="ConfirmPrint('confirm');"><i class="fa fa-print"></i> 打印需求确认函</button>
+            </div>
+            <div class="jqGrid_wrapper">
+                <table id="table_list"></table>
+                <div id="pager_list"></div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="opType" value="" />
+</body>
+</html>
+<script src="../../jqgrid/js/jquery.min.js"></script>
+<script src="../../jqgrid/js/bootstrap.min.js"></script>
+<script src="../../jqgrid/js/grid.locale-cn.js"></script>
+<script src="../../jqgrid/js/jquery.jqGrid.min.js"></script>
+<script src="../../js/Common.js"></script>
+<script src="../../layer/layer.js"></script>
+<script src="../../js/RebatesFirstAudit.js"></script>

@@ -1,0 +1,10 @@
+F:\Zhao.jian\VIPCustomer\VIPCustomer\Common\bin\Debug\Common.dll
+F:\Zhao.jian\VIPCustomer\VIPCustomer\Common\bin\Debug\Common.pdb
+F:\Zhao.jian\VIPCustomer\VIPCustomer\Common\obj\Debug\Common.dll
+F:\Zhao.jian\VIPCustomer\VIPCustomer\Common\obj\Debug\Common.pdb
+F:\Zhao.jian\VIPCustomer\VIPCustomer\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+F:\MyProject\VIPCustomer\VIPCustomer\Common\bin\Debug\Common.dll
+F:\MyProject\VIPCustomer\VIPCustomer\Common\bin\Debug\Common.pdb
+F:\MyProject\VIPCustomer\VIPCustomer\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+F:\MyProject\VIPCustomer\VIPCustomer\Common\obj\Debug\Common.dll
+F:\MyProject\VIPCustomer\VIPCustomer\Common\obj\Debug\Common.pdb

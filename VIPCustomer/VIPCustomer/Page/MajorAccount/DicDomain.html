@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>数据维护- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.4.6.0.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrapValidator.css" rel="stylesheet" />
+    <script src="../../Content/js/jquery3.min.js"></script>
+    <script src="../../Content/js/bootstrap.min.js"></script>
+    <script src="../../Content/css/bootstrap-table.min.js"></script>
+    <script src="../../Content/css/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Static/script/Common.js"></script>
+    <script src="../../Content/js/bootstrapValidator.js"></script>
+    <script src="../../Content/layer/layer.js"></script>
+    <script src="../../Static/script/DicDomain.js"></script>
+    <style type="text/css">
+        .style_01 {
+            color: white;
+            text-align: left;
+            float: left;
+            margin-left: 20px;
+        }
+
+        .backcolor {
+            background-color: #1beecb !important;
+        }
+
+        .table {
+            table-layout: fixed;
+        }
+
+        td {
+            width: 100%;
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap; /* 不换行 */
+            overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+            text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用*/
+        }
+    </style>
+</head>
+<body>
+    <div class="col-lg-5">
+        <div class="ibox-title">
+            <h5>数据分类</h5>
+            <div class="ibox-tools">
+                <a data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseTwo">
+                    <i class="fa  fa-angle-double-down"></i>
+                </a>
+            </div>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse in">
+            <div class="ibox-title panel-title" style="background-color:#1ab394;    color: white;">
+                <a id="addType" href="javascript:(0)" onclick="AddDetail();" class="style_01" authorize="yes">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a id="editType" href="javascript:(0)" onclick="EditDetail();" class="style_01" authorize="yes">
+                    <i class="fa fa-pencil"></i>编辑
+                </a>
+                <a id="delType" href="javascript:(0)" onclick="DeleteDetail();" class="style_01" authorize="yes">
+                    <i class="fa fa-minus"></i>删除
+                </a>
+                <script>$('.panel-title').authorizeButton()</script>
+            </div>
+            <!--------------------------列表部分---------------------------->
+            <table id="tbDicType" class="table table-hover"></table>
+            <!--------------------------列表部分---------------------------->
+            <!--------------------------添加/修改信息的弹出层---------------------------->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form class="form-horizontal" id="Form1" action="../../IServer/SysManage/SysManage.ashx?action=submitTypeData">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                <h4 class="modal-title">
+                                    <i class="icon-pencil"></i>
+                                    <span id="lblAddTitle" style="font-weight:bold">添加</span>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group" id="hidDiv">
+                                    <label class="col-sm-3 control-label" for="ds_host">域编码：</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" name="Code" required="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="ds_host">域名称：</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" name="Name" required="" />
+                                    </div>
+                                </div>
+                                <div class="form-group" id="hidDiv2">
+                                    <label class="col-sm-3 control-label" for="ds_host">列表显示名称：</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" name="ListName" required="" />
+                                    </div>
+                                </div>
+                                <div class="form-group" id="hidDiv3">
+                                    <label class="col-sm-3 control-label">排序：</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" name="Sort" />
+                                    </div>
+                                </div>
+                                <div class="form-group" id="hidDiv4">
+                                    <label class="col-sm-3 control-label">说明：</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" name="Remark"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="HidCode" name="HidCode" value="" />
+                            <div class="modal-footer" style="text-align:center;">
+                                <button type="submit" id="btn_submit" class="btn btn-primary btn-sm">
+                                    确定
+                                </button>
+                                <button type="reset" class="btn btn-default btn-sm" id="btnClose">
+                                    取消
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--------------------------添加/修改信息的弹出层---------------------------->
+        </div>
+    </div>
+    <div class="col-lg-7">
+        <div class="ibox-title">
+            <h5>数据列表</h5>
+            <div class="ibox-tools">
+                <a data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseOne">
+                    <i class="fa  fa-angle-double-down"></i>
+                </a>
+            </div>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+            <div class="ibox-title panel-title" style="background-color:#1ab394;    color: white;">
+                <a id="addList" href="javascript:(0)" onclick="Item.Add();" class="style_01" authorize="yes">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a id="editList" href="javascript:(0)" onclick="Item.Edit();" class="style_01" authorize="yes">
+                    <i class="fa fa-pencil"></i>编辑
+                </a>
+                <a id="delList" href="javascript:(0)" onclick="Item.Delete();" class="style_01" authorize="yes">
+                    <i class="fa fa-minus"></i>删除
+                </a>
+                <script>$('.panel-title').authorizeButton()</script>
+            </div>
+            <!--------------------------列表部分---------------------------->
+            <table id="tbDicList" class="table table-hover"></table>
+            <!--------------------------列表部分---------------------------->
+            <!--------------------------添加/修改信息的弹出层---------------------------->
+            <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form class="form-horizontal" id="Form2" action="../../IServer/SysManage/SysManage.ashx?action=submitListData">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                <h4 class="modal-title">
+                                    <i class="icon-pencil"></i>
+                                    <span id="lblAddTitle2" style="font-weight:bold">添加</span>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label" for="ds_host">列表显示名称：</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" name="ListName" required="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">排序：</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" name="Sort" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">说明：</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" name="Remark"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="HidID" name="HidID" value="0" />
+                            <input type="hidden" id="HidCode2" name="HidCode2" />
+                            <input type="hidden" id="HidName" name="HidName" />
+                            <div class="modal-footer" style="text-align:center;">
+                                <button type="submit" id="btn_submit" class="btn btn-primary btn-sm">
+                                    确定
+                                </button>
+                                <button type="reset" class="btn btn-default btn-sm" onclick="Item.Close();">
+                                    取消
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--------------------------添加/修改信息的弹出层---------------------------->
+        </div>
+    </div>
+</body>
+</html>

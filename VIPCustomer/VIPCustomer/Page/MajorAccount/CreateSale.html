@@ -1,0 +1,293 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>订单销售单管理- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../Content/css/ui.jqgrid.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="ibox-title">
+        <h5>销售单信息</h5>
+        <div class="ibox-tools">
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <div class="form-group">
+            <button id="btnEdit" type="button" class="btn btn-info " onclick="EditDetail();"><i class="fa fa-pencil"></i> 编辑</button>
+            <button id="btnDel" type="button" class="btn btn-danger " onclick="DeleteData()">
+                <i class="fa fa-remove"></i>&nbsp;&nbsp;<span class="bold">作废销售单</span>
+            </button>
+            <button id="btnSubmit" type="button" class="btn btn-info " onclick="SubmitData();"><i class="fa fa-arrow-circle-right"></i> 提交销售单</button>
+            <button id="btnPrintConfirm" class="btn btn-warning" onclick="ConfirmPrint('confirm');"><i class="fa fa-print"></i> 打印需求确认函</button>
+            <button id="btnSubmit" type="button" class="btn btn-info " onclick="SubmitRebatesData();"><i class="fa fa-arrow-circle-right"></i>申请返款</button>
+        </div>
+        <div class="form-group">
+            <label class="col-md-1 control-label" style="margin-top:10px;">查询条件:</label>
+            <div class="col-md-2" style="margin-left:-50px;">
+                <input name="Code" type="text" class="form-control" placeholder="查询订单编号或客户名称" title="输入订单编号或客户名称" />
+            </div>
+            <span class="input-group-btn">
+                <button id="btnSearch" class="btn btn btn-primary" type="button"> <i class="fa fa-search"></i> 查询</button>
+            </span>
+        </div>
+        <div class="jqGrid_wrapper">
+            <table id="table_list"></table>
+            <div id="pager_list"></div>
+        </div>
+    </div>
+    <input type="hidden" id="opType" value="" />
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document" style="width:1300px;height:600px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">编辑</h4>
+                </div>
+                <div class="tabs-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="tab" href="#tab-1" aria-expanded="true">基本信息</a>
+                        </li>
+                        <li class="" onclick="tabClick(1)">
+                            <a data-toggle="tab" href="#tab-2" aria-expanded="false">车辆需求</a>
+                        </li>
+                        <li class="" onclick="tabClick(2)">
+                            <a data-toggle="tab" href="#tab-3" aria-expanded="false">交车信息</a>
+                        </li>
+                        <li class="" onclick="tabClick(3)">
+                            <a data-toggle="tab" href="#tab-4" aria-expanded="false">经销店联系人</a>
+                        </li>
+                        <li class="" onclick="tabClick(4)">
+                            <a data-toggle="tab" href="#tab-5" aria-expanded="false">客户联系人</a>
+                        </li>
+                    </ul>
+                    <!-- 基本信息 -->
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+                            <form class="form-horizontal" id="commentForm" style="height:550px;overflow-y:auto;overflow-x:hidden;">
+                                <div class="panel panel-group">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#collapseTwo">
+                                                <span style="font-size:12px;">基本信息</span>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse collapse in">
+                                        <div class="panel-body ">
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label" for="ds_host">购买方式:</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control m-b" name="BuyWay"></select>
+                                                </div>
+                                                <label class="col-sm-1 control-label">创建日期：</label>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" name="CreateTime" type="text" readonly="readonly" />
+                                                </div>
+                                                <label class="col-sm-1 control-label" for="ds_host">记录编号:</label>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" name="OrderNo" type="text" readonly="readonly" />
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label">采购类型：</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control m-b" name="PurchaseType"></select>
+                                                </div>
+                                                <label class="col-sm-1 control-label">记录状态:</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control m-b" name="OrderState"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-group">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#collapseTwo1">
+                                                <span style="font-size:12px;">客户基本信息</span>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo1" class="panel-collapse collapse collapse in">
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label" style="color:red;">选择客户:</label>
+                                                <div class="col-sm-2">
+                                                    <button type="button" class="btn btn-sm btn-primary" onclick="SelCustomerAll()">
+                                                        <i class="fa fa-search-plus"></i>选择
+                                                    </button>  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<button type="button" class="btn btn-sm btn-primary" onclick="AddCustomer();">
+                                                        <i class="fa fa-plus"></i>新增
+                                                    </button>
+                                                </div>
+                                                <label class="col-sm-1 control-label">客户名称：</label>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" type="text" name="CustomerName" readonly="readonly" />
+                                                </div>
+                                                <label class="col-sm-1 control-label">客户类型：</label>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" name="CustomerType" type="text" readonly="readonly" />
+                                                </div>
+                                                <label class="col-sm-1 control-label">机构代码：</label>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" name="Code" type="text" readonly="readonly" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label">电话：</label>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" type="text" name="Phone" readonly="readonly" />
+                                                </div>
+                                                <label class="col-sm-1 control-label">地址：</label>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" name="Address" type="text" readonly="readonly" />
+                                                </div>
+                                                <label class="col-sm-1 control-label">邮政编码：</label>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" name="Email" type="text" readonly="readonly" />
+                                                </div>
+                                                <label class="col-sm-1 control-label">传真：</label>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" name="Fax" type="text" readonly="readonly" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-group">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#collapseTwo2">
+                                                <span style="font-size:12px;">销售基本信息</span>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo2" class="panel-collapse collapse collapse in">
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label" style="color:red;">记录名称:</label>
+                                                <div class="col-sm-2">
+                                                    <select class="form-control m-b" name="RecordName"></select>
+                                                </div>
+                                                <label class="col-sm-1 control-label">制表人：</label>
+                                                <div class="col-sm-2">
+                                                    <input class="form-control" name="Watchmaker" type="text" readonly="readonly" />
+                                                </div>
+                                                <label class="col-md-1 control-label"></label>
+                                                <label><input type="checkbox" value="0" name="DifferentPlace" onclick="setCheckStatC()">需要异地交车（申请配车时需要确认该选项）</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-group">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" href="#collapseTwo3">
+                                                <span style="font-size:12px;">回复意见</span>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo3" class="panel-collapse collapse collapse in">
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label">FTMS回复</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <label class="col-sm-1 control-label">回复人：</label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" type="text" name="Replyer3" readonly="readonly" />
+                                                    </div>
+                                                    <label class="col-sm-1 control-label">回复意见：</label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="ReComment3" type="text" readonly="readonly" />
+                                                    </div>
+                                                    <label class="col-sm-1 control-label">回复日期：</label>
+                                                    <div class="col-sm-2">
+                                                        <input class="form-control" name="ReDate3" type="text" readonly="readonly" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label">回复备注：</label>
+                                                <div class="col-sm-6">
+                                                    <textarea name="ReRemark3" class="form-control" readonly="readonly"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="opType" id="opType" value="" />
+                                <input type="hidden" name="hiddenDealerId" id="hiddenDealerId" value="" />
+                                <input type="hidden" name="hiddenCustomerId" id="hiddenCustomerId" value="" />
+                                <input type="hidden" id="opCarType" value="" />
+                            </form>
+                        </div>
+                        <!-- 车辆需求 -->
+                        <div id="tab-2" class="tab-pane">
+                            <div class="ibox-content">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-sm btn-primary " id="btnAddCar" onclick="AddCarDetail()"><i class="fa fa-plus"></i>&nbsp;添加</button>
+                                    <button type="button" class="btn btn-sm btn-danger " id="btnDelCar" onclick="DelCarDetail();">
+                                        <i class="fa fa-remove"></i>&nbsp;&nbsp;<span class="bold">删除</span>
+                                    </button>
+                                </div>
+                                <div class="jqGrid_wrapper">
+                                    <table id="CarDemandTable"></table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 交车信息 -->
+                        <div id="tab-3" class="tab-pane">
+                            <table id="dealerContactTable"></table>
+                            <div id="dealerContactPager"></div>
+                        </div>
+                        <!-- 经销店联系人 -->
+                        <div id="tab-4" class="tab-pane">
+                            <table id="dealerContactTable"></table>
+                            <div id="dealerContactPager"></div>
+                        </div>
+
+                        <!-- 客户联系人 -->
+                        <div id="tab-5" class="tab-pane">
+                            <div class="jqGrid_wrapper">
+                                <table id="CContactTable"></table>
+                                <div id="CContactPager"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="text-align:center;">
+                    <button type="button" id="btn_submit" class="btn btn-sm btn-primary" onclick="SaveContact()">
+                        保存
+                    </button>
+                    <button type="button" id="btn_submit" class="btn btn-sm btn-primary" onclick="SaveContact()">
+                        保存并提交
+                    </button>
+                    <button type="button" class="btn  btn-sm  btn-default" data-dismiss="modal">
+                        取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="../../Content/js/jquery.min.js"></script>
+<script src="../../Content/js/bootstrap.min.js"></script>>
+<script src="../../Content/js/jquery.jqGrid.min.js"></script>
+<script src="../../Content/js/grid.locale-cn.js"></script>
+<script src="../../Static/script/CreateSale.js"></script>
+<script src="../../Content/layer/layer.js"></script>
+<script src="../../Static/script/Common.js"></script>

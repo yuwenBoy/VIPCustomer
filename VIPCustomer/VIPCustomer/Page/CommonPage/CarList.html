@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>车型列表- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.4.6.0.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .style_01 {
+            float: left;
+            margin-left: 20px;
+        }
+
+        .backcolor {
+            background-color: #ff006e !important;
+        }
+
+        .table tbody tr td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div id="Tool">
+        <form id="searchForm">
+            <div class="form-group" style="height:50px;">
+                <label class="col-sm-1" style="top:6px;line-height:50px;">车辆名称：</label>
+                <div class="col-sm-2" style="top:-40px;left:67px;">
+                    <select class="form-control m-b" name="Name" placeholder="车名">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <label class="col-sm-1" style="top:-77px;left:270px;">SFX：</label>
+                <div class="col-sm-2" style="top:-108px;left:308px;">
+                    <input name="SFX" type="text" class="form-control" placeholder="车型缩写" />
+                </div>
+                <div class="col-sm-2" style="left:522px;line-height:30px;top: -141px;">
+                    <button class="btn btn-sm btn-primary" type="button" onclick="btn_search();"> <i class="fa fa-search"></i>查询</button>
+                </div>
+                <div class="col-sm-2" style="left:590px;line-height:30px;top: -172px;">
+                    <button class="btn btn-sm btn-primary" type="button" onclick="reset();"><i class="fa  fa-minus-circle"></i>重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--------------------------列表部分---------------------------->
+    <table class="table table-bordered" style="table-layout:fixed;" id="tbCars"></table>
+    <!--------------------------列表部分---------------------------->
+</body>
+</html>
+<script src="../../Content/js/jquery3.min.js"></script>
+<script src="../../Content/js/bootstrap.min.js"></script>
+<script src="../../Content/css/bootstrap-table.min.js"></script>
+<script src="../../Content/css/bootstrap-table-zh-CN.min.js"></script>
+<script src="../../Static/script/Common.js"></script>
+<script src="../../Content/layer/layer.js"></script>
+<script>
+    $(function () {
+        InitMainTable();
+        // 获取车型名称
+        $.post('/IServer/SysManage/CarsHandler.ashx?action=GetNameList', function (data) {
+            var json = $.parseJSON(data);
+            for (var i = 0; i < json.length; i++) {
+                $('select[name=Name]').append("<option value='" + json[i].CarName + "'>" + json[i].CarName + "</option>");
+            }
+        });
+    });
+    var $table;
+    function InitMainTable() {
+        //记录页面bootstrap-table全局变量$table，方便应用
+        $table = $('#tbCars').bootstrapTable({
+            toolbar: '#Tool',
+            url: '/IServer/SysManage/CarsHandler.ashx?action=GetCarsManagePager',                      //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            contentType: "application/x-www-form-urlencoded",//一种编码。好像在post请求的时候需要用到。这里用的get请求，注释掉这句话也能拿到数据
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: true,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+            pageSize: 50,                     //每页的记录行数（*）
+            pageList: [50, 100, 200, 500],        //可供选择的每页的行数（*）
+            search: false,                      //是否显示表格搜索
+            strictSearch: true,
+            showColumns: false,                  //是否显示所有的列（选择显示的列）
+            showRefresh: false,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            clickToSelect: true,                 //是否启用点击选中行
+            height: 450,                    //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "PKID",                     //每一行的唯一标识，一般为主键列
+            showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            detailView: false,                  //是否显示父子表
+            undefinedText: '',                  //清除列里面有“-”
+            singleSelect: true,                 //是否可以多选
+            paginationFirstText: "第一页",
+            paginationPreText: "上一页",
+            paginationNextText: "下一页",
+            paginationLastText: "最后一页",
+            queryParams: function (params) {
+                var temp = $('#searchForm').serializeObject();
+                temp['rows'] = params.limit,// 总数据
+                temp['page'] = (params.offset / params.limit) + 1,   //页码
+                temp['sort'] = params.sort,//排序列名
+                temp['sortOrder'] = params.order//排位命令（desc，asc）
+                return temp;
+            },
+            columns: [{
+                checkbox: true,
+                visible: true                  //是否显示复选框
+            },
+             {
+                 field: 'Name',
+                 title: '车名',
+                 sortable: true,
+                 width: 150,
+             }, {
+                 field: 'SFX',
+                 title: '车型缩写(SFX)',
+                 sortable: true,
+                 width: 150
+             }, {
+                 field: 'CarModel',
+                 title: '车型(E/G)',
+                 sortable: true,
+                 width: 150
+             }, {
+                 field: 'CarLogoName',
+                 title: '车辆标识',
+                 sortable: true,
+                 width: 150,
+             }],
+            onLoadError: function () {
+                layer.msg("加载数据失败", { time: 1500, icon: 2 });
+            },
+            onClickRow: function (row, $element) {
+                var id = row.PKID;
+                cloneClick(row);
+            },
+        });
+    };
+
+    function RefreshData() {
+        $('#tbCars').bootstrapTable('destroy');//先要将table销毁，否则会保留上次加载的内容
+        InitMainTable();//重新初使化表格。
+    }
+
+    // 重置
+    function reset() {
+        $('input[name=SFX]').val('');
+        $('select[name=Name]').val(-1);
+    }
+
+    // 查询
+    function btn_search() {
+        RefreshData();
+    }
+
+    function cloneClick(row) {
+        var model = {
+            PKID: row.PKID,
+            Name: row.Name,
+            CarModel: row.CarModel,
+            SFX: row.SFX,
+            Model: row.Model,
+        };
+        parent.global = model;
+    }
+</script>

@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>交车记录- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../jqgrid/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../jqgrid/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../jqgrid/css/ui.jqgrid.css" rel="stylesheet" />
+    <link href="../../jqgrid/css/style.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>交车记录</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content" style="border:0px solid red;height:785px;">
+          
+            <div class="form-group">
+                <label class="col-sm-1 control-label" style="margin-top:10px;">订单状态:</label>
+                <div class="col-sm-2" style="margin-left:-65px;">
+                    <select class="form-control m-b" name="">
+                        <option value="all">全部</option>
+                        <option value="390">未申请返款</option>
+                        <option value="400">待审批返款</option>
+                        <option value="410">返款通过</option>
+                        <option value="1100">返款驳回</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label" style="margin-top:10px;">订单编号:</label>
+                <div class="col-sm-2" style="margin-left:-65px;">
+                    <input name="CustomerName" type="text" class="form-control" />
+                </div>
+                <label class="col-sm-1 control-label" style="margin-top:10px;">订单类型:</label>
+                <div class="col-sm-1" style="margin-left:-65px;">
+                    <select class="form-control m-b" name="">
+                        <option value="">全部</option>
+                        <option value="1">订单</option>
+                        <option value="2">销售单</option>
+                    </select>
+                </div>
+                <label class="col-sm-1 control-label" style="margin-top:10px;">车架号:</label>
+                <div class="col-sm-2" style="margin-left:-65px;">
+                    <input name="CustomerName" type="text" class="form-control" />
+                </div>
+                <span class="input-group-btn">
+                    <button id="btnSearch" class="btn btn btn-primary" type="button"> <i class="fa fa-search"></i> 查询</button>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label" style="margin-top:10px;">车名:</label>
+                <div class="col-sm-2" style="margin-left:-65px;">
+                    <select class="form-control m-b" name=""></select>
+                </div>
+                <label class="col-sm-1 control-label" style="margin-top:10px;">客户名称:</label>
+                <div class="col-sm-2" style="margin-left:-65px;">
+                    <input name="CustomerName" type="text" class="form-control" />
+                </div>
+                <button id="btnSearch" class="btn btn btn-primary" type="button"> <i class="fa fa-search"></i> 查询</button>
+                <button id="btnSearch" class="btn btn btn-default" type="button"> <i class="fa fa-arrow-right"></i> 申请返款</button>
+            </div>
+            <div class="jqGrid_wrapper">
+                <table id="table_list"></table>
+                <div id="pager_list"></div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="opType" value="" />
+</body>
+</html>
+<script src="../../jqgrid/js/jquery.min.js"></script>
+<script src="../../jqgrid/js/bootstrap.min.js"></script>
+<script src="../../jqgrid/js/grid.locale-cn.js"></script>
+<script src="../../jqgrid/js/jquery.jqGrid.min.js"></script>
+<script src="../../js/Common.js"></script>
+<script src="../../layer/layer.js"></script>
+<script src="../../js/PayCarRecord.js"></script>

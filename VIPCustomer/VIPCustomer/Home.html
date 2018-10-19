@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <title>大客户管理系统</title>
+    <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/css/bootstrap-reset.css" rel="stylesheet" />
+    <link href="Content/css/font-awesome.4.6.0.css" rel="stylesheet" />
+    <link href="Content/css/style.css" rel="stylesheet" />
+    <link href="Content/css/style-responsive.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="col-sm-12">
+        <div class="alert alert-block alert-danger fade in" style="margin-top:20px;">
+            <button data-dismiss="alert" class="close close-sm" type="button">
+                <i class="fa fa-times"></i>
+            </button>
+            <div style="font-size:15px;">尊敬的<span id="labUser"></span><span id="weather"></span></div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="Content/js/jquery3.min.js"></script>
+<script src="Content/js/bootstrap.min.js"></script>
+<script src="Content/js/respond.min.js"></script>
+<script src="Content/js/jquery.leoweather.min.js"></script>
+<script type="text/javascript">
+        $(function () {
+            $('#labUser').html(sessionStorage.Name);
+            $('#weather').leoweather({ format: '，{时段}好！<span id="colock">现在时间是：<strong>{年}年{月}月{日}日 星期{周} {时}:{分}:{秒}</strong>，</span> <b>{城市}天气</b> {天气} {夜间气温}℃ ~ {白天气温}℃' });
+        });
+</script>

@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>经销店管理- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.4.6.0.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrapValidator.css" rel="stylesheet" />
+    <script src="../../Content/js/jquery3.min.js"></script>
+    <script src="../../Content/js/bootstrap.min.js"></script>
+    <script src="../../Content/css/bootstrap-table.min.js"></script>
+    <script src="../../Content/css/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Content/js/bootstrapValidator.js"></script>
+    <script src="../../Static/script/Common.js"></script>
+    <script src="../../Content/layer/layer.js"></script>
+    <script src="../../Static/script/Dealer.js"></script>
+
+    <style type="text/css">
+        .style_01 {
+            float: left;
+            margin-left: 20px;
+        }
+
+        .backcolor {
+            background-color: #1beecb !important;
+        }
+
+        .table {
+            table-layout: fixed;
+        }
+
+        td {
+            width: 100%;
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap; /* 不换行 */
+            overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+            text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用*/
+        }
+    </style>
+</head>
+<body>
+    <div class="ibox-title">
+        <h5>经销店</h5>
+        <div class="ibox-tools">
+        </div>
+    </div>
+    <div class="ibox-content">
+        <!--------------------------搜索部分---------------------------->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="text-align:right;font-weight:300;">
+                    <a style="float:left;margin-left:0px;margin-top:-5px;"><i class="fa fa-glass"></i>查询内容</a>
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseOne">
+                        <i class="fa fa-chevron-down"></i>
+                    </a>
+                    <a href="javascript:(0)" onclick="btn_search();" style="float:left;margin-left:1200px;">
+                        <i class="fa fa-search"></i> 查询
+                    </a>
+                    <a href="javascript:(0)" onclick="reset();" class="style_01">
+                        <i class="fa  fa-minus-circle"></i> 重置
+                    </a>
+                    <a id="add" href="javascript:(0)" onclick="AddDetail();" class="style_01" authorize="yes">
+                        <i class="fa fa-plus"></i> 添加
+                    </a>
+                    <a id="edit" href="javascript:(0)" onclick="EditDetail();" class="style_01" authorize="yes">
+                        <i class="fa fa-pencil"></i>编辑
+                    </a>
+                    <a id="delete" href="javascript:(0)" onclick="DeleteDetail();" class="style_01" authorize="yes">
+                        <i class="fa fa-minus"></i>删除
+                    </a>
+                    <a href="javascript:(0)" onclick="$.load();" class="style_01">
+                        <i class="fa fa-refresh"></i>刷新
+                    </a>
+                    <script>$('.panel-title').authorizeButton()</script>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <form id="searchForm">
+                        <div class="form-group">
+                            <label class="col-md-1 control-label" style="margin-top:10px;">经销店编号：</label>
+                            <div class="col-md-2" style="margin-left:-60px;">
+                                <input name="Code" type="text" class="form-control" />
+                            </div>
+                            <label class="col-md-1 control-label" style="margin-top:10px;margin-left: -20px;">经销店名称：</label>
+                            <div class="col-md-2">
+                                <input name="Name" type="text" class="form-control" style="margin-left:-60px;" />
+                            </div>
+                            <label class="col-md-1 control-label" style="margin-top:10px;margin-left: -80px;">大区：</label>
+                            <div class="col-md-2" style="margin-left:-100px;">
+                                <select class="form-control m-b" name="">
+                                    <option value="-1">==请选择==</option>
+                                </select>
+                            </div>
+                            <label class="col-md-1 control-label" style="margin-top:10px;">省份：</label>
+                            <div class="col-md-2" style="margin-left:-100px;">
+                                <select class="form-control m-b" name=""></select>
+                            </div>
+                            <label class="col-md-1 control-label" style="margin-top:10px;">城市：</label>
+                            <div class="col-md-2" style="margin-left:40px;margin-top:-33px;">
+                                <select class="form-control m-b" name=""></select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--------------------------搜索部分---------------------------->
+        <!--------------------------列表部分---------------------------->
+        <table id="TbDC" class="table table-hover"></table>
+        <!--------------------------列表部分---------------------------->
+        <!--------------------------添加/修改信息的弹出层---------------------------->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+            <div class="modal-dialog  modal-lg" role="document">
+                <div class="modal-content">
+                    <form class="form-horizontal" id="Form1" action="../../IServer/Dealer/Dealer.ashx?action=SaveDealer">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">
+                                <i class="icon-pencil"></i>
+                                <span id="lblAddTitle" style="font-weight:bold">添加</span>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">经销店编号：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="fr_Code" />
+                                </div>
+                                <label class="col-md-1 control-label">经销店名称：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="fr_Name" />
+                                </div>
+                                <label class="col-md-1 control-label">曾用名：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="OldName" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label" for="ds_host">地担：</label>
+                                <div class="col-md-3">
+                                    <select class="form-control m-b" name="BearUserId">
+                                        <option value="-1">==请选择==</option>
+                                    </select>
+                                </div>
+                                <label class="col-md-1 control-label">大区经理：</label>
+                                <div class="col-md-3">
+                                    <select class="form-control m-b" name="RegionManagerUserId">
+                                        <option value="-1">==请选择==</option>
+                                    </select>
+                                </div>
+                                <label class="col-md-1 control-label">大区：</label>
+                                <div class="col-md-3">
+                                    <select class="form-control m-b" name="cboBigArea">
+                                        <option value="-1"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">省份：</label>
+                                <div class="col-md-3">
+                                    <select class="form-control m-b" name="cboProvince"></select>
+                                </div>
+                                <label class="col-md-1 control-label">城市：</label>
+                                <div class="col-md-3">
+                                    <select class="form-control m-b" name="cboCity"></select>
+                                </div>
+                                <label class="col-md-1 control-label" for="ds_host">地址：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="Address" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label" for="ds_host">邮政编码：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="ZipCode" />
+                                </div>
+                                <label class="col-md-1 control-label">电话：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="Phone" />
+                                </div>
+                                <label class="col-md-1 control-label">传真：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="fax" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label" for="ds_host">邮箱：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="Email" />
+                                </div>
+                                <label class="col-md-1 control-label">销售电话：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="SalesTel" />
+                                </div>
+                                <label class="col-md-1 control-label">服务电话：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="ServerTel" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label" for="ds_host">系统邮箱：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="SystemEmail" />
+                                </div>
+                                <label class="col-md-1 control-label">销售部长：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="SalesDepartment" />
+                                </div>
+                                <label class="col-md-1 control-label">销售部长电话：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="SalesDepartmentTel" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label" for="ds_host">大区专员：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="MaxCommissioner" />
+                                </div>
+                                <label class="col-md-1 control-label">大区专员电话：</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" name="MaxCommissionerTel" />
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="HidId" name="HidId" value="0" />
+                        <div class="modal-footer" style="text-align:center;">
+                            <button type="submit" id="btn_submit" class="btn btn-primary btn-sm">
+                                确定
+                            </button>
+                            <button type="reset" class="btn btn-default btn-sm" id="btnClose">
+                                取消
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--------------------------添加/修改信息的弹出层---------------------------->
+    </div>
+</body>
+</html>

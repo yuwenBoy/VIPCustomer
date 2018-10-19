@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html lang="en" style="overflow: hidden; ">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Olive Enterprise">
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <title>大客户管理系统</title>
+    <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/css/bootstrap-reset.css" rel="stylesheet" />
+    <link href="Content/css/font-awesome.4.6.0.css" rel="stylesheet" />
+    <link href="Content/css/style.css" rel="stylesheet" />
+    <link href="Content/css/framework-theme.css" rel="stylesheet" />
+    <link href="Content/css/bootstrapValidator.css" rel="stylesheet" />
+    <link href="Content/css/jquery.contextMenu.css" rel="stylesheet" />
+
+</head>
+<body>
+    <section id="container" class="">
+        <!-- 顶部  -->
+        <header class="header white-bg">
+            <!-- 左侧导航伸缩开关 -->
+            <div class="sidebar-toggle-box action">
+                <div class="fa fa-bars tooltips">
+                </div>
+            </div>
+            <a href="javascript:;" class="logo">一汽TOYOTA大客户管理系统</a>
+            <nav class="nav notify-row" id="top_menu">
+                <ul class="nav top-menu">
+                    <li class="dropdown" style="font-size:15px;color: #151414;line-height: 25px;">
+                        当前登录用户：<span id="labUser" style="color:#bf0909;"></span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="top-nav ">
+                <ul class="nav pull-right top-menu">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <img alt="" src="Content/images/avatar1_small.jpg">
+                            <span class="username"></span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <li class="log-arrow-up"></li>
+                            <li><a href="hshs.html" class="menuItem" data-id="userInfo"><i class="fa fa-male"></i>个人信息</a></li>
+                            <li><a href="hshs.html1" class="menuItem" data-id="userInfo1"><i class="fa fa-key"></i> 修改密码</a></li>
+                            <li><a href="hshs.html2" class="menuItem" data-id="userInfo2"><i class="fa fa-bell-o"></i>维护通知</a></li>
+                            <li><a href="javascript:void(0)" onclick="LoginOut()"><i class="fa fa-power-off"></i>退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <!-- 顶部  -->
+    </section>
+    <!-- 左侧导航 -->
+    <aside>
+        <div id="sidebar" class="nav-collapse" tabindex="5000">
+            <ul class="sidebar-menu" id="nav-accordion"></ul>
+        </div>
+    </aside>
+    <section id="main-content" style="overflow: hidden; ">
+
+        <section class="wrapper">
+            <div class="content-tabs">
+                <button class="roll-nav roll-left tabLeft">
+                    <i class="fa fa-backward"></i>
+                </button>
+                <nav class="page-tabs menuTabs">
+                    <div class="page-tabs-content" style="margin-left: 0px;">
+                        <a href="javascript:;" class="menuTab active" data-id="226"><i class="fa fa-home"></i>首页</a>
+                    </div>
+                </nav>
+                <button class="roll-nav roll-right tabRight">
+                    <i class="fa fa-forward" style="margin-left: 3px;"></i>
+                </button>
+                <button class="roll-nav roll-right fullscreen"><i class="fa fa-arrows-alt"></i></button>
+            </div>
+            <div class="content-iframe" style="background-color: #f9f9f9; overflow: hidden;">
+                <div class="mainContent" id="content-main" style="margin: 0px 0px 0px;padding: 0px;">
+                    <iframe class="zhaoJian_iframe" width="100%" height="100%" src="/Page/Home.html" frameborder="0" data-id="226"></iframe>
+                </div>
+            </div>
+        </section>
+        <!-- 底部 -->
+        <footer class="site-footer" style="position: fixed; left:0px; bottom: 0; height: 40px; width: 100%;z-index:1000; ">
+            <div class="text-center">
+                2017-2018 &copy;版权所有，基于前端框架Olive Admin by V1.0版本，作者zhaojian <a href="http://www.jq22.com/demo/OliveAdmin20160906/" target="_blank"> Olive Admin by</a>
+                <a href="#" class="go-top">
+                    <i class="fa fa-angle-up"></i>
+                </a>
+            </div>
+        </footer>
+        <!-- 底部 -->
+    </section>
+    <input type="hidden" name="opType" value="" />
+    <!-- 个人信息modal -->
+    <div class="modal fade" id="PersonInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form-horizontal" id="Form1">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">
+                            <i class="icon-pencil"></i>
+                            <span id="lblAddTitle" style="font-weight:bold">个人资料</span>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户密码：</label>
+                            <div class="col-md-9">
+                                <input class="form-control" type="password" name="LoginPwd" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">姓名：</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="Name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Email：</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="Email" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">联系方式：</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="Phone" />
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="HidId" name="HidId" value="0" />
+                    <div class="modal-footer" style="text-align:center;">
+                        <button type="button" id="btn_submit" class="btn btn-primary btn-sm" onclick="SavePersonInfo()">
+                            保存信息
+                        </button>
+                        <button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">
+                            关闭
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 个人信息modal -->
+    <!-- 修改密码modal -->
+    <div class="modal fade" id="SelfPassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form-horizontal" id="Form2" action="/IServer/SysManage/SysManage.ashx?action=SelfPassword">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">
+                            <i class="icon-pencil"></i>
+                            <span id="lblAddTitle" style="font-weight:bold">修改密码</span>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">用户名：</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="LoginName" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">旧密码：</label>
+                            <div class="col-md-9">
+                                <input class="form-control" type="password" name="LoginPwd" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">新密码：</label>
+                            <div class="col-md-9">
+                                <input class="form-control" type="password" name="newPassword" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">确认新密码：</label>
+                            <div class="col-md-9">
+                                <input class="form-control" type="password" name="newPassword2" />
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="Pwd_PKID" name="Pwd_PKID" value="0" />
+                    <div class="modal-footer" style="text-align:center;">
+                        <button type="submit" class="btn btn-primary btn-sm" onclick="SavePersonInfo()">
+                            保存新密码
+                        </button>
+                        <button type="reset" class="btn btn-default btn-sm" data-dismiss="modal">
+                            关闭
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="loadingPage" style="display: none;">
+        <div class="loading-shade"></div>
+        <div class="loading-content" onclick="$.loading(false)">数据加载中，请稍后…</div>
+    </div>
+    <!-- 修改密码modal -->
+</body>
+</html>
+
+<script src="Content/js/jquery-2.1.1.min.js"></script>
+<script src="Content/js/jquery.contextMenu.min.js"></script>
+<script src="Content/js/bootstrap.min.js"></script>
+<script src="Static/framework-clientdata.js"></script>
+<script src="Static/script/main.js"></script>
+<script src="Content/js/jquery.dcjqaccordion.2.7.js"></script>
+
+<script src="Content/js/common-scripts.js"></script>
+<script src="Content/js/respond.min.js"></script>
+<script src="Content/js/jquery.cookie.js"></script>
+<script src="Content/js/bootstrapValidator.js"></script>
+<script src="Static/framework-ui.js"></script>
+<script src="Static/indextab.js"></script>

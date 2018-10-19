@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>后台管理系统登陆</title>
+    <link href="Content/layui/css/layui.css" rel="stylesheet" />
+    <link href="Content/css/login.css" rel="stylesheet" />
+    <script src="Content/js/jquery3.min.js"></script>
+    <script src="Content/layui/layui.js"></script>
+</head>
+<body>
+    <video class="video-player" preload="auto" autoplay="autoplay" muted="true" loop="loop" data-height="1080" data-width="1920" height="1080" width="1920">
+        <source src="Content/video/video1.mp4" type="video/mp4">
+    </video>
+    <div class="video_mask"></div>
+    <div class="login">
+        <h1>大客户系统登录</h1>
+        <form class="layui-form" method="post" id="Form1">
+            <div class="layui-form-item">
+                <input type="text" name="username" lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input layui-form-danger">
+            </div>
+            <div class="layui-form-item">
+                <input type="password" name="password" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn login_btn" lay-submit="" lay-filter="login " id="login_button" type="button">
+                登陆系统
+            </button>
+        </form>
+    </div>
+    <script type="text/javascript">
+        (function ($) {
+            $.login = {
+                loginClick: function () {
+                    var loginLoading = top.layer.msg('登陆中，请稍候', { icon: 16, time: false, shade: 0.8 });
+                    $.ajax({
+                        url: 'IServer/Handler1.ashx?action=UserLogin',
+                        type: 'post',
+                        data: $('#Form1').serialize(),
+                        dataType: 'json',
+                        async: false,
+                        success: function (data) {
+                            if (data.state == 1) {   //登陆成功
+                                top.layer.close(loginLoading);
+                                location.href = "Main.html";
+                                return true;
+                            }
+                            else {
+                                top.layer.close(loginLoading);
+                                top.layer.msg(data.msg);
+                                return false;
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            top.layer.close(loginLoading);
+                            layer.msg("请检查数据库是否连接。");
+                        }
+                    });
+                    return false;
+                },
+                init: function () {
+                    if (window != top)
+                        top.location.href = location.href;
+                    layui.use('form', function () {
+                        var form = layui.form(),
+                                $ = layui.jquery;
+                        $('input[type=username]').val("");
+                        $('input[type=username]').focus();
+                    });
+                    $('#login_button').click(function () {
+                        $.login.loginClick();
+                    });
+                    document.onkeydown = function (e) {
+                        if (!e) e = window.event;
+                        if ((e.keyCode || e.which) == 13) {
+                            document.getElementById('login_button').focus();
+                            document.getElementById('login_button').click();
+                        }
+                    }
+                }
+            };
+            $(function () {
+                $.login.init();
+            })
+        })(jQuery);
+    </script>
+    <div class="layui-layer-move"></div>
+</body>
+</html>

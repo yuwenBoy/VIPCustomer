@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>车辆资源格式表- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+    <script src="../../Content/js/jquery.min.js"></script>
+    <script src="../../Content/js/bootstrap.min.js"></script>
+    <script src="../../Content/js/bootstrap-select.min.js"></script>
+    <script src="../../Content/js/jquery.validate.min.js"></script>
+    <script src="../../Content/js/messages_zh.min.js"></script>
+    <script src="../../Content/DatePicker/WdatePicker.js"></script>
+    <script src="../../Content/layer/layer.js"></script>
+    <script src="../../Static/script/Common.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            GetcboCars();
+            $('#dfSubmitBeginDate').val(new Date().Format('yyyy-MM-dd'));
+        });
+
+        // 获取车辆名称
+        var GetcboCars = function () {
+            $.ajax({
+                url: '../../IServer/Cars/CarsManage.ashx?action=cboCarName',
+                type: 'post',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        $('#mcboCarName').append("<option value='" + data[i].CarName + "'>" + data[i].CarName + "</option>");
+                    }
+                }
+            });
+        }
+
+        var getExcelData = function () {
+            var flag = $('#from2').valid();
+            if (!flag) {
+                return;
+            }
+            $("#btnExtract").attr('disabled', true);
+            var param = $('#from2').serialize();
+            //=========================$.ajax问题未解决导出报表功能====================
+            //$.ajax({
+            //    url: '../../Tools/IServer/MonthlyCarsNumber.ashx?action=GetExcelData',
+            //    type: 'post',
+            //    data: param,
+            //    dataType: 'json',
+            //    success: function (result) {
+            //        // alert(result);
+            //    }, error: function (data) {
+
+            //    }
+            //});
+            window.location.href = '../../IServer/Cars/CarsManage.ashx?action=GetExcelData&' + param;
+            layer.alert("正在生成下载文件，请稍等......");
+            $("#btnExtract").attr('disabled', false);
+        }
+    </script>
+</head>
+<body>
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>每月车辆资源</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <form class="form-horizontal" id="from2">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="ds_host">车型名称：</label>
+                    <div class="col-sm-4">
+                        <select class="selectpicker " multiple title="" id="mcboCarName" name="mcboCarName" style="height:100px;overflow:scroll;" required=""></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="ds_name">日期(指定月份内任何一日即可)：</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" id="dfSubmitBeginDate" name="dfSubmitBeginDate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd '}) " style="width:220px;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-sm btn-primary " id="btnExtract" onclick="getExcelData();">
+                            <i class="fa fa-table">
+                            </i>
+                            获取车辆资源数据表
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

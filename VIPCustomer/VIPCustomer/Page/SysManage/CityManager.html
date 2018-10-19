@@ -1,0 +1,493 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>角色维护- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.4.6.0.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrapValidator.css" rel="stylesheet" />
+    <script src="../../Content/js/jquery3.min.js"></script>
+    <script src="../../Content/js/bootstrap.min.js"></script>
+    <script src="../../Content/css/bootstrap-table.min.js"></script>
+    <script src="../../Content/css/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Content/js/bootstrapValidator.js"></script>
+    <script src="../../Static/script/Common.js"></script>
+    <script src="../../Content/layer/layer.js"></script>
+    <style type="text/css">
+        .style_01 {
+            float: left;
+            margin-left: 20px;
+        }
+
+        .backcolor {
+            background-color: #1beecb !important;
+        }
+
+        .table {
+            table-layout: fixed;
+        }
+
+        td {
+            width: 100%;
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap; /* 不换行 */
+            overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+            text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用*/
+        }
+    </style>
+</head>
+<body>
+    <div class="ibox-title">
+        <h5>城市管理</h5>
+        <div class="ibox-tools">
+        </div>
+    </div>
+    <div class="ibox-content">
+        <!--------------------------搜索部分---------------------------->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="text-align:right;font-weight:300;">
+                    <a style="float:left;margin-left:0px;margin-top:-5px;"><i class="fa fa-glass"></i>查询内容</a>
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseOne">
+                        <i class="fa fa-chevron-down"></i>
+                    </a>
+                    <a href="javascript:(0)" onclick="btn_search();" style="float:left;margin-left:1050px;">
+                        <i class="fa fa-search"></i> 查询
+                    </a>
+                    <a href="javascript:(0)" onclick="reset();" class="style_01">
+                        <i class="fa  fa-minus-circle"></i> 重置
+                    </a>
+                    <a id="addCity" href="javascript:(0)" onclick="AddDetail();" class="style_01" authorize="yes">
+                        <i class="fa fa-plus"></i> 添加城市
+                    </a>
+                    <a id="editCity" href="javascript:(0)" onclick="EditDetail();" class="style_01" authorize="yes">
+                        <i class="fa fa-pencil"></i>编辑城市
+                    </a>
+                    <a id="addP" href="javascript:(0)" onclick="Item.Add();" class="style_01" authorize="yes">
+                        <i class="fa fa-plus"></i> 添加省
+                    </a>
+                    <a id="editP" href="javascript:(0)" onclick="Item.Edit();" class="style_01" authorize="yes">
+                        <i class="fa fa-pencil"></i>编辑省
+                    </a>
+                    <a href="javascript:(0)" onclick="$.load();" class="style_01">
+                        <i class="fa fa-refresh"></i>刷新
+                    </a>
+                    <script>$('.panel-title').authorizeButton()</script>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <form id="searchForm">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <input name="Name" type="text" class="form-control" placeholder="输入名称进行查询" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--------------------------搜索部分---------------------------->
+        <!--------------------------列表部分---------------------------->
+        <table id="tbCity" class="table table-hover"></table>
+        <!--------------------------列表部分---------------------------->
+        <!--------------------------添加/修改城市的弹出层---------------------------->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form class="form-horizontal" id="Form1" action="../../IServer/SysManage/SysManage.ashx?action=SaveCityData">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">
+                                <i class="icon-pencil"></i>
+                                <span id="lblAddTitle" style="font-weight:bold">城市添加</span>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="ds_host">大区：</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control m-b" name="cboBigArea">
+                                        <option value="0000">--请选择--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="ds_host">省：</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control m-b" name="fr_Province"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="ds_host">城市：</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" name="City" required="" />
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="HidId" name="HidId" value="0" />
+                        <div class="modal-footer" style="text-align:center;">
+                            <button type="submit" id="btn_submit" class="btn btn-primary btn-sm">
+                                确定
+                            </button>
+                            <button type="reset" class="btn btn-default btn-sm" id="btnClose">
+                                取消
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--------------------------添加/修改城市的弹出层---------------------------->
+        <!--------------------------添加/修改省的弹出层---------------------------->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form class="form-horizontal" id="Form2" action="../../IServer/SysManage/SysManage.ashx?action=SaveProvinceData">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">
+                                <i class="icon-pencil"></i>
+                                <span id="lblAddTitle2" style="font-weight:bold">省添加</span>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="ds_host">大区：</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control m-b" name="cboBigArea">
+                                        <option value="0000">--请选择--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="ds_host">省：</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" name="Province" required="" />
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="hidPKID" name="hidPKID" value="0" />
+                        <!-- 编辑添加省需要获取隐藏域省的ID -->
+                        <input type="hidden" id="hidProvince" name="hidProvince" value="0" />
+                        <div class="modal-footer" style="text-align:center;">
+                            <button type="submit" id="btn_submit" class="btn btn-primary btn-sm">
+                                确定
+                            </button>
+                            <button type="reset" class="btn btn-default btn-sm" onclick="Item.HideShow();">
+                                取消
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--------------------------添加/修改省的弹出层---------------------------->
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        InitMainTable();
+        $('select[name=cboBigArea]').on('change', function () {
+            bindSelectProvince($(this).val())
+        });
+        SaveData();
+        Item.SaveProvinceData();
+    });
+    var URL = '../../IServer/SysManage/SysManage.ashx?action=';
+    var $table;
+    function InitMainTable() {
+        //记录页面bootstrap-table全局变量$table，方便应用
+        var queryUrl = URL + 'GetCityManagePager';
+        $table = $('#tbCity').bootstrapTable({
+            url: queryUrl,                      //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            contentType: "application/x-www-form-urlencoded",//一种编码。好像在post请求的时候需要用到。这里用的get请求，注释掉这句话也能拿到数据
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: true,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+            pageSize: 50,                     //每页的记录行数（*）
+            pageList: [50, 100, 200, 500],
+            search: false,                      //是否显示表格搜索
+            strictSearch: true,
+            showColumns: false,                  //是否显示所有的列（选择显示的列）
+            showRefresh: false,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            clickToSelect: true,                 //是否启用点击选中行
+            height: 580,//$(window).height - 173,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "PKID",                     //每一行的唯一标识，一般为主键列
+            showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            detailView: false,                  //是否显示父子表
+            undefinedText: '',                  //清除列里面有“-”
+            singleSelect: true,                 //是否可以多选
+            paginationFirstText: "第一页",
+            paginationPreText: "上一页",
+            paginationNextText: "下一页",
+            paginationLastText: "最后一页",
+            //得到查询的参数
+            queryParams: function (params) {
+                //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                var temp = $('#searchForm').serializeObject();
+                temp['rows'] = params.limit,// 总数据
+                temp['page'] = (params.offset / params.limit) + 1,   //页码
+                temp['sort'] = params.sort,//排序列名
+                temp['sortOrder'] = params.order//排位命令（desc，asc）
+                return temp;
+            },
+            columns: [{
+                checkbox: true,
+                visible: true                  //是否显示复选框
+            },
+             { title: '序号', width: 50, align: "center", formatter: function (value, row, index) { return index + 1; } },
+             {
+                 field: 'Country',
+                 title: '大区',
+                 sortable: true,
+                 width: 300,
+             }, {
+                 field: 'Province',
+                 title: '省',
+                 sortable: true,
+             }, {
+                 field: 'City',
+                 title: '城市',
+                 sortable: true,
+             }],
+            onLoadError: function () {
+                layer.msg("加载数据失败", { time: 1500, icon: 2 });
+            },
+            onDblClickRow: function (row, $element) {
+                var id = row.PKID;
+                $('#HidId').val(id);// 编辑状态下把主键ID赋值给隐藏域，方便后台接收处理
+                $('#myModal').modal('show');
+                $('#lblAddTitle').text('城市编辑');
+                bindController(id);
+            },
+        });
+    };
+
+    // 刷新信息
+    function RefreshData() {
+        $('#tbCity').bootstrapTable('destroy');//先要将table销毁，否则会保留上次加载的内容
+        InitMainTable();//重新初使化表格。
+    }
+
+    // 重置
+    function reset() {
+        $('input[name=Name]').val('');
+    }
+
+    // 查询
+    function btn_search() {
+        RefreshData();
+    }
+
+    // 获取大区
+    $.ajax({
+        url: URL + 'GetList',
+        type: 'post',
+        async: false,
+        success: function (data) {
+            var json = $.parseJSON(data);
+            for (var i = 0; i < json.length; i++) {
+                $('select[name=cboBigArea]').append("<option value='" + json[i].cityId + "'>" + json[i].City + "</option>");
+            }
+        }
+    });
+
+    // 获取省(二级联动)
+    function bindSelectProvince(cityId) {
+        $.getJSON(URL + 'GetProvince&cityId=' + cityId, function (result) {
+            $('select[name=fr_Province]').empty();
+            for (var i = 0; i < result.length; i++) {
+                $('select[name=fr_Province]').append("<option value='" + result[i].PKID + "'>" + result[i].City + "</option>");
+            }
+        });
+    }
+
+    // 新增
+    function AddDetail() {
+        $('#myModal').modal('show');
+        $('#Form1').bootstrapValidator('resetForm');
+    }
+
+    // 编辑
+    function EditDetail() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows <= 0) {
+            layer.msg('请至少选择一条数据。');
+            return;
+        }
+        else {
+            // 编辑状态下把主键ID赋值给隐藏域，方便后台接收处理
+            $('#HidId').val(rows[0].PKID);
+            $('#myModal').modal('show');
+            $('#lblAddTitle').text('城市编辑');
+            bindController(rows[0].PKID);
+        }
+    }
+
+    // 编辑将对象绑定到控件
+    function bindController(Id) {
+        $.getJSON(URL + 'GetCityDictionaryByPKID&cityId=' + Id, function (res) {
+            $('select[name=cboBigArea]').val(res.CountryID);
+            // 绑定二级下拉框出现连续追加问题
+            if ($('select[name=fr_Province]').val() == null) {
+                $('select[name=fr_Province]').append("<option value='" + res.ProvinceID + "'>" + res.Province + "</option>");
+            }
+            else {
+                $('select[name=fr_Province]').empty();
+                $('select[name=fr_Province]').append("<option value='" + res.ProvinceID + "'>" + res.Province + "</option>");
+            }
+            $('input[name=City]').val(res.City);
+        });
+    }
+
+    // 保存城市
+    function SaveData() {
+        $('#Form1').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {/*input状态样式图片*/
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {/*验证：规则*/
+                fr_Province: {//验证input项：验证规则
+                    message: '省不能为空',
+                    validators: {
+                        notEmpty: {//非空验证：提示消息
+                            message: '角色名称不能为空'
+                        }
+                    }
+                },
+                City: {
+                    message: '城市不能为空',
+                    validators: {
+                        notEmpty: {
+                            message: '城市不能为空'
+                        },
+
+                    }
+                }
+            }
+        }).on('success.form.bv', function (e) {//点击提交之后
+            e.preventDefault();
+            var $form = $(e.target);
+            $.post($form.attr('action'), $form.serializeObject(), function (result) {
+                var SaveLoading = layer.msg('数据提交中，请稍候', { icon: 16, time: true, shade: 0.8 });
+                var json = JSON.parse(result);  // 由json字符串转换为json对象
+                if (json.success) {
+                    layer.close(SaveLoading);
+                    layer.msg("保存成功", { time: 1500, icon: 1 });
+                    RefreshData();
+                    $('#myModal').modal('hide');
+                    $form.bootstrapValidator('resetForm');
+                    clearForm($($form));
+                }
+                else if (json.state == "T") {
+                    layer.alert(json.msg);
+                }
+                else {
+                    layer.close(SaveLoading);
+                    layer.msg("保存失败，请重试。", { time: 3000, icon: 2 });
+                }
+            });
+        });
+        // 关闭
+        $('#btnClose').on('click', function () {
+            $('#Form1').bootstrapValidator('resetForm');
+            $('#myModal').modal('hide');
+        });
+    }
+
+    // 添加省、编辑省
+    var Item = {
+        Add: function () {
+            $('#myModal2').modal('show');
+            $('#Form2').bootstrapValidator('resetForm');
+        },
+        Edit: function () {
+            var rows = $table.bootstrapTable('getSelections');
+            if (rows <= 0) {
+                layer.msg('请至少选择一条数据。');
+                return;
+            }
+            else {
+                // 编辑状态下把主键ID赋值给隐藏域，方便后台接收处理
+                $('#hidPKID').val(rows[0].PKID);
+                $('#hidProvince').val(rows[0].ProvinceID);
+                $('#myModal2').modal('show');
+                $('#lblAddTitle2').text('省编辑');
+                Item.bindController(rows[0].PKID);
+            }
+        },
+        bindController: function (Id) {// 将对象绑定到控件
+            $.getJSON(URL + 'GetCityDictionaryByPKID&cityId=' + Id, function (res) {
+                $('select[name=cboBigArea]').val(res.CountryID);
+                $('input[name=Province]').val(res.Province);
+            });
+        },
+        SaveProvinceData: function () {
+            $('#Form2').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {/*input状态样式图片*/
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {/*验证：规则*/
+                    Province: {//验证input项：验证规则
+                        message: '省不能为空',
+                        validators: {
+                            notEmpty: {//非空验证：提示消息
+                                message: '省不能为空'
+                            }
+                        }
+                    }
+                }
+            }).on('success.form.bv', function (e) {//点击提交之后
+                e.preventDefault();
+                var $form = $(e.target);
+                $.post($form.attr('action'), $form.serializeObject(), function (result) {
+                    var SaveLoading = layer.msg('数据提交中，请稍候', { icon: 16, time: true, shade: 0.8 });
+                    var json = JSON.parse(result);  // 由json字符串转换为json对象
+                    if (json.success) {
+                        layer.close(SaveLoading);
+                        layer.msg("保存成功", { time: 1500, icon: 1 });
+                        RefreshData();
+                        $('#myModal2').modal('hide');
+                        $form.bootstrapValidator('resetForm');
+                        clearForm($($form));
+                    }
+                    else if (json.state == "T") {
+                        layer.alert(json.msg);
+                    }
+                    else {
+                        layer.close(SaveLoading);
+                        layer.msg("保存失败，请重试。", { time: 3000, icon: 2 });
+                    }
+                });
+            });
+
+        },
+        HideShow: function () {
+            $('#Form2').bootstrapValidator('resetForm');
+            $('#myModal2').modal('hide');
+        }
+    }
+</script>

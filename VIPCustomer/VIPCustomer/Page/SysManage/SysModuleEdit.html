@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>角色维护-大客户管理系统</title>
+    <meta charset="utf-8" />
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrap-reset.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.4.6.0.css" rel="stylesheet" />
+    <link href="../../Content/css/style.css" rel="stylesheet" />
+    <link href="../../Content/css/style-responsive.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrapValidator.css" rel="stylesheet" />
+</head>
+<body>
+    <section class="panel">
+        <header class="panel-heading">
+            <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-down"></a>
+            </span>
+        </header>
+        <div class="panel-body">
+            <div class="form">
+                <form class="form-horizontal" id="Form1" role="form" action="../../IServer/SysManage/SysManage.ashx?action=SaveModule">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="ds_name">模块名称</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="text" name="Name" id="Name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="ds_name">模块页面地址</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="text" name="PageAddress" id="PageAddress" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" value="1" name="IsActivate" id="IsActivate" checked="checked">是否启用</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" value="0" name="IsSysModule" id="IsSysModule">是否系统功能</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="ds_username">备注</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="3" name="Remark" id="Remark"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-offset-3 col-lg-10" style="text-align:center;">
+                                <button class="btn btn-primary" type="submit" id="btn_Save">保存</button>
+                                <button class="btn btn-default" type="button" id="btn_Cancel">取消</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+<script src="../../Content/js/jquery.min.js"></script>
+<script src="../../Content/js/bootstrap.min.js"></script>
+<script src="../../Content/js/bootstrapValidator.js"></script>
+<script src="../../Content/layer/layer.js"></script>
+<script src="../../Content/js/respond.min.js"></script>
+<script src="../../Static/script/SysModule.js"></script>
+<script type="text/javascript">
+    PageInitModule();
+    // 关闭弹出层
+    $('#btn_Cancel').click(function () {
+        parent.layer.closeAll();
+    })
+</script>

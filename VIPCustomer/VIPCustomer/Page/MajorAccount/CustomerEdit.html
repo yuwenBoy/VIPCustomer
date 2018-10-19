@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>订单管理- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../Content/css/ui.jqgrid.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="col-sm-12">
+        <div class="tabs-container">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#tab-1" aria-expanded="true">客户信息</a>
+                </li>
+            </ul>
+            <!-- 基本信息 -->
+            <form class="form-horizontal m-t" id="from1">
+                <input type="hidden" id="customerID" value=""/>
+                <input type="hidden" id="opType" name="opType" value="">
+                <div class="panel panel-group" style="margin-top:-14px;">
+                    <div id="collapseTwo" class="panel-collapse collapse collapse in">
+                        <div class="panel-body">
+                            <div class="form-group" style="margin-left:-140px;margin-top:-20px;">
+                                <label class="col-sm-3 control-label" style="margin-left:-50px;" id="input_Div">所属经销店:</label>
+                                <div class="col-sm-3" style="margin-left:-25px;" id="input_Div">
+                                    <input class="form-control" name="DealerName" readonly="readonly" type="text" />
+                                </div>
+                                <div class="col-sm-3" style="display:none;">
+                                    <input class="form-control" name="DealerId" readonly="readonly" type="text" />
+                                </div>
+                                <label class="col-sm-2 control-label" style="margin-left:-106px;">客户性质：</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control m-b" name="ContactName" style="margin-left:-30px;" required=""></select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control m-b" name="ContactName2" required=""></select>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-left:-140px;margin-top:-20px;">
+                                <label class="col-sm-3 control-label" style="margin-left:-50px;">机构代码:</label>
+                                <div class="col-sm-3" style="margin-left:-25px;">
+                                    <input class="form-control" name="EnterpriseCode" type="text" required="" />
+                                </div>
+                                <label class="col-sm-2 control-label" style="margin-left:-106px;">客户名称：</label>
+                                <div class="col-sm-6">
+                                    <input class="form-control" name="Name" type="text" style="margin-left:-30px;" required="" />
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-left:-140px;">
+                                <label class="col-sm-3 control-label" style="margin-left:-50px;">邮政编码:</label>
+                                <div class="col-sm-3" style="margin-left:-25px;">
+                                    <input class="form-control" name="Zip" type="text" />
+                                </div>
+                                <label class="col-sm-2 control-label" style="margin-left:-106px;">客户地址：</label>
+                                <div class="col-sm-6">
+                                    <input class="form-control" name="Address" type="text" style="margin-left:-30px;" />
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-left:-140px;">
+                                <label class="col-sm-3 control-label" style="margin-left:-50px;">电子邮箱:</label>
+                                <div class="col-sm-3" style="margin-left:-25px;">
+                                    <input class="form-control" name="Email" type="text" />
+                                </div>
+                                <label class="col-sm-2 control-label" style="margin-left:-106px;">电话：</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" name="Phone" type="text" style="margin-left:-30px;" />
+                                </div>
+                                <label class="col-sm-2 control-label" style="margin-left:-106px;">创建时间：</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control datepicker" name="CreateTime" type="text" readonly="readonly" style="margin-left:-30px;" />
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-left:-140px;">
+                                <label class="col-sm-3 control-label" style="margin-left:-50px;">所属单位:</label>
+                                <div class="col-sm-3" style="margin-left:-25px;">
+                                    <input class="form-control" name="CompetentDepartment" type="text" />
+                                </div>
+                                <label class="col-sm-2 control-label" style="margin-left:-106px;">单位联系人：</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" name="ExecutiveDepartment" type="text" style="margin-left:-30px;" />
+                                </div>
+                                <label class="col-sm-2 control-label" style="margin-left:-106px;">单位座机：</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" name="MainBusiness" type="text" style="margin-left:-30px;" />
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-left:-135px;">
+                                <label class="col-sm-3 control-label" style="margin-left:-50px;">其他要求：</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" cols="20" data-val="true" name="Remark" rows="3" style="margin-left:-30px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info" style="margin-top:-21px;">
+                    <div class="panel-heading">
+                        客户联系人<div class="btn-group" style="margin-left:50px;top:5px;margin-top:-8px;">
+                            <button class="btn" type="button" onclick="add_Click()">
+                                <i class="fa fa-plus"></i>添加
+                            </button>
+                            <button class="btn" type="button" onclick="edit_Click()">
+                                <i class="fa fa-pencil"></i> 编辑
+                            </button>
+                            <button class="btn " type="button" onclick="DelContact()">
+                                <i class="fa fa-minus-circle"></i> 删除
+                            </button>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="jqGrid_wrapper">
+                            <table id="TableCContactId"></table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer" style="text-align:center;">
+                <button class="btn btn-primary" id="btnSave">保存</button>
+                <button class="btn btn-white" id="cancle">取消</button>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="exampleModalLabel">编辑</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="from2">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="ds_host">姓名</label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="Name" type="text" name="Name" required="" />
+                                </div>
+                                <label class="col-sm-2 control-label" for="ds_name">职务</label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" name="Job" id="Job" type="text" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">角色</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control m-b" name="roleId" id="roleId"></select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="ds_name">电话</label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" name="ContactPhone" id="ContactPhone" type="text" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="ds_name">移动电话</label>
+                                <div class="col-sm-4">
+                                    <input class="form-control" name="MobileTel" id="MobileTel" type="text" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>取消
+                        </button>
+                        <button type="button" id="btn_submit" class="btn btn-primary" onclick="SaveContact()">
+                            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>确定
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="../../Content/js/jquery.min.js"></script>
+<script src="../../Content/js/bootstrap.min.js"></script>>
+<script src="../../Content/js/jquery.jqGrid.min.js"></script>
+<script src="../../Content/js/grid.locale-cn.js"></script>
+<script src="../../Content/layer/layer.js"></script>
+<script src="../../Content/js/jquery.validate.min.js"></script>
+<script src="../../Content/js/messages_zh.min.js"></script>
+<script src="../../Static/script/Common.js"></script>
+<script src="../../Static/script/Customer.js"></script>
+ 

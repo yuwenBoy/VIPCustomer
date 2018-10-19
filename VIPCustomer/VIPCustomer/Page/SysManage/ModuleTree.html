@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrap-reset.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.4.6.0.css" rel="stylesheet" />
+    <link href="../../Content/css/style.css" rel="stylesheet" />
+    <link href="../../Content/css/style-responsive.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrapValidator.css" rel="stylesheet" />
+    <link href="../../Content/metroStyle/metroStyle.css" rel="stylesheet" />
+</head>
+<body>
+    <section class="panel">
+        <div class="panel-body">
+            <div id="MoveTree" class="tree tree-plus-minus ztree">
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-3 col-lg-10" style="text-align:center;">
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-success green dropdown-toggle" type="button">
+                            <i class="fa fa-arrow-right"></i> 移至
+                            <span class="caret">
+                            </span>
+                        </button>
+                        <ul role="menu" class="dropdown-menu">
+                            <li>
+                                <a href="javascript:void(0)" onclick="MoveTree(1)">
+                                    移动为同级
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" onclick="MoveTree(2)">
+                                    移动为子级
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-default" type="button" id="btn_Cancel">取消</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+<script src="../../Content/js/jquery3.min.js"></script>
+<script src="../../Content/js/bootstrap.min.js"></script>
+<script src="../../Content/js/bootstrapValidator.js"></script>
+<script src="../../Content/js/jquery.dcjqaccordion.2.7.js"></script>
+<script src="../../Content/js/jquery.scrollTo.min.js"></script>
+<script src="../../Content/js/jquery.nicescroll.js"></script>
+<script src="../../Content/layer/layer.js"></script>
+<script src="../../Content/js/respond.min.js"></script>
+<script src="../../Content/js/common-scripts.js"></script>
+<script src="../../Content/js/jquery.ztree.core.min.js"></script>
+<script src="../../Content/js/jquery.ztree.excheck.min.js"></script>
+<script src="../../Static/script/SysModule.js"></script>
+<script type="text/javascript">
+    // 关闭弹出层
+    $('#btn_Cancel').click(function () {
+        parent.layer.closeAll();
+    });
+    $(function () {
+        MoveTreeLoad();
+    })
+</script>

@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>订单管理- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../Content/css/ui.jqgrid.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+    <script src="../../Content/js/jquery.min.js"></script>
+    <script src="../../Content/js/bootstrap.min.js"></script>
+    <script src="../../Static/script/Common.js"></script>
+</head>
+<body>
+    <div class="ibox-title">
+        <h5>客户基本信息</h5>
+        <div class="ibox-tools">
+            <a class="collapse-link">
+            </a>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title" style="text-align:right;font-weight:300;">
+                    <a style="float:left;margin-left:0px;margin-top:-5px;"><i class="fa fa-glass"></i>查询内容</a>
+                    <a id="btnAdd" href="javascript:(0)" style="float:left;margin-left:1300px;" authorize="yes">
+                        <i class="fa fa-plus"></i>添加
+                    </a>
+                    <a id="btnEdit" href="javascript:(0)" class="style_01" authorize="yes">
+                        <i class="fa fa-pencil"></i>编辑
+                    </a>
+                    <a id="btnDelete" href="javascript:(0)" onclick="DeleteData();" class="style_01" authorize="yes">
+                        <i class="fa fa-minus"></i>删除
+                    </a>
+                    <a id="PanelExistCar" href="javascript:(0)" class="style_01" authorize="yes">
+                     <i class="fa fa-truck"></i> 查看配车情况
+                    </a>
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseOne">
+                        <i class="fa fa-chevron-down"></i>
+                    </a>
+                    <script>$('.panel-title').authorizeButton()</script>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <form id="searchForm">
+                        <div class="form-group">
+                            <label class="col-md-1 control-label" style="margin-top:10px;">机构代码:</label>
+                            <div class="col-md-2" style="margin-left:-70px;">
+                                <input name="Code" type="text" class="form-control" />
+                            </div>
+                            <label class="col-md-1 control-label" style="margin-top:10px;">企业名称:</label>
+                            <div class="col-md-2" style="margin-left:-70px;">
+                                <input name="Name" type="text" class="form-control" />
+                            </div>
+                            <label class="col-md-1 control-label" style="margin-top:10px;">客户性质:</label>
+                            <div class="col-md-2" style="margin-left:-70px;">
+                                <select class="form-control m-b" name="ContactName">
+                                    <option value="-1">--请选择--</option>
+                                </select>
+                            </div>
+                            <label class="col-md-1 control-label" style="margin-top:10px;">二级客户性质:</label>
+                            <div class="col-md-2" style="margin-left:-50px;">
+                                <select class="form-control m-b" name="ContactName2">
+                                    <option value="-1">--请选择--</option>
+                                </select>
+                            </div>
+                            <span class="input-group-btn">
+                                <button id="btnSearch" class="btn btn btn-primary" type="button"> <i class="fa fa-search"></i> 查询</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--<div class="form-group">
+            <button id="btnAdd" type="button" class="btn btn-primary "><i class="fa fa-plus"></i>&nbsp;添加</button>
+            <button id="btnEdit" type="button" class="btn btn-info "><i class="fa fa-pencil"></i> 编辑</button>
+            <button id="btnDel" type="button" class="btn btn-danger " onclick="DeleteData()" style="display:none;">
+                <i class="fa fa-remove"></i>&nbsp;&nbsp;<span class="bold">删除</span>
+            </button>
+            <button id="btnPrintConfirm" class="btn btn-warning"><i class="fa fa-truck"></i> 查看配车情况</button>
+        </div>-->
+        <div class="jqGrid_wrapper">
+            <table id="table_list"></table>
+            <div id="pager_list"></div>
+        </div>
+    </div>
+    <input type="hidden" id="opType" value="" />
+</body>
+</html>
+<script src="../../Content/js/jquery.jqGrid.min.js"></script>
+<script src="../../Content/js/grid.locale-cn.js"></script>
+<script src="../../Static/script/Customer.js"></script>
+<script src="../../Content/layer/layer.js"></script>

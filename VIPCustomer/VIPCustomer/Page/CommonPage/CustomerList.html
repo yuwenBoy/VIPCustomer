@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>经销店列表- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.4.6.0.css" rel="stylesheet" />
+    <link href="../../Content/css/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+    <script src="../../Content/js/jquery3.min.js"></script>
+    <script src="../../Content/js/bootstrap.min.js"></script>
+    <script src="../../Content/css/bootstrap-table.min.js"></script>
+    <script src="../../Content/css/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../Static/script/Common.js"></script>
+    <script src="../../Content/layer/layer.js"></script>
+    <style type="text/css">
+        .style_01 {
+            float: left;
+            margin-left: 20px;
+        }
+
+        .backcolor {
+            background-color: #ff006e !important;
+        }
+
+        .table tbody tr td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div id="Tool">
+        <form id="searchForm">
+            <label class="col-sm-2 control-label" for="ds_host" style="margin-top: 30px;top: -15px;">查询条件:</label>
+            <div class="col-sm-4" style="top:5px;left: -85px;">
+                <input name="keyword" type="text" class="input form-control" placeholder="搜索关键字" title="查询企业代码或客户名称" />
+            </div>
+            <div class="col-sm-3" style="margin-top:6px;left: -85px;">
+                <span class="input-group-btn">
+                    <button id="btn_Dealer" class="btn btn-sm btn-primary" type="button" onclick="btn_search();"> <i class="fa fa-search"></i> 查询</button>
+                </span>
+            </div>
+            <div class="col-sm-3" style="margin-top:6px;margin-left: -230px;">
+                <span class="input-group-btn">
+                    <button id="btn_Dealer" class="btn btn-sm btn-primary" type="button" onclick="reset();"><i class="fa  fa-minus-circle"></i>重置</button>
+                </span>
+            </div>
+        </form>
+    </div>
+    <!--------------------------列表部分---------------------------->
+    <table class="table table-bordered" style="table-layout:fixed;" id="TbDC"></table>
+    <!--------------------------列表部分---------------------------->
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        InitMainTable();
+    });
+    var $table;
+    function InitMainTable() {
+        $table = $('#TbDC').bootstrapTable({
+            toolbar: '#Tool',
+            url: '../../IServer/Customer/CusManage.ashx?action=GetCustomerPagerByDealerID',                      //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            contentType: "application/x-www-form-urlencoded",//一种编码。好像在post请求的时候需要用到。这里用的get请求，注释掉这句话也能拿到数据
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: true,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+            pageSize: 50,                     //每页的记录行数（*）
+            pageList: [50, 100, 200, 500],        //可供选择的每页的行数（*）
+            search: false,                      //是否显示表格搜索
+            strictSearch: true,
+            showColumns: false,                  //是否显示所有的列（选择显示的列）
+            showRefresh: false,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            clickToSelect: true,                 //是否启用点击选中行
+            height: 580,//$(window).height - 173,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "PKID",                     //每一行的唯一标识，一般为主键列
+            showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            detailView: false,                  //是否显示父子表
+            undefinedText: '',                  //清除列里面有“-”
+            singleSelect: true,                 //是否可以多选
+            paginationFirstText: "第一页",
+            paginationPreText: "上一页",
+            paginationNextText: "下一页",
+            paginationLastText: "最后一页",
+            queryParams: function (params) {
+                var temp = $('#searchForm').serializeObject();
+                temp['rows'] = params.limit,// 总数据
+                temp['page'] = (params.offset / params.limit) + 1,   //页码
+                temp['sort'] = params.sort,//排序列名
+                temp['sortOrder'] = params.order//排位命令（desc，asc）
+                return temp;
+            },
+            columns: [{
+                checkbox: true,
+                visible: true                  //是否显示复选框
+            },
+             {
+                 field: 'DealerName',
+                 title: '所属经销店',
+                 sortable: true,
+                 width: 150
+             }, {
+                 field: 'EnterpriseCode',
+                 title: '机构代码',
+                 sortable: true,
+                 width: 200
+             }, {
+                 field: 'Name',
+                 title: '客户名称',
+                 sortable: true,
+                 width: 200
+             }, {
+                 field: 'Address',
+                 title: '客户地址',
+                 sortable: true, width: 120
+             },
+             {
+                 field: 'Zip',
+                 title: '邮政编码',
+                 sortable: true, width: 120
+             },
+             {
+                 field: 'CustomerNatureName',
+                 title: '客户性质',
+                 sortable: true, width: 120
+             }, {
+                 field: 'Phone',
+                 title: '电话',
+                 sortable: true, width: 120,
+               
+             }, {
+                 field: 'Fax',
+                 title: '传真',
+                 sortable: true, width: 120
+             },
+             {
+                 field: 'Email',
+                 title: '邮箱',
+                 sortable: true, width: 520
+             }, {
+                 field: 'WebSite',
+                 title: '网址',
+                 sortable: true, width: 120
+             }, {
+                 field: 'CompetentDepartment',
+                 title: '所属单位',
+                 sortable: true, width: 120
+             }, {
+                 field: 'ExecutiveDepartment',
+                 title: '单位联系人',
+                 sortable: true, width: 120
+             },
+             {
+                 field: 'ExecutiveDepartment',
+                 title: '单位电话',
+                 sortable: true, width: 120
+             }, {
+                 field: 'MainBusiness',
+                 title: '主要业务',
+                 sortable: true, width: 120
+             }, {
+                 field: 'IndustryStatus',
+                 title: '行业地位',
+                 sortable: true, width: 120
+             }, {
+                 field: 'CreateTime',
+                 title: '创建日期',
+                 sortable: true, width: 120,
+                 formatter: function (value, row, index) {
+                      
+                 }
+             }],
+            onClickRow: function (row, $element) {
+                var id = row.PKID;
+                cloneClick(row);
+            },
+        });
+    };
+
+    // 刷新信息
+    function RefreshData() {
+        $('#TbDC').bootstrapTable('destroy');//先要将table销毁，否则会保留上次加载的内容
+        InitMainTable();//重新初使化表格。
+    }
+
+    // 重置
+    function reset() {
+        $('input[name=keyword]').val('');
+    }
+
+    // 查询
+    function btn_search() {
+        RefreshData();
+    }
+    function cloneClick(row) {
+        var model = {
+            PKID: row.PKID,
+            EnterpriseCode: row.EnterpriseCode,
+            Name: row.Name,
+            CustomerNatureName: row.CustomerNatureName,
+            Phone: row.Phone,
+            Address: row.Address,
+            Eamil: row.Eamil,
+            Fax: row.Fax,
+        };
+        parent.global = model;
+    }
+</script>

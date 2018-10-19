@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>经销店交车控制-大客户管理系统</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>
+                大客户销售事后返款确认函
+            </h5>
+        </div>
+        <div class="ibox-content">
+            <form class="form-horizontal" id="from2">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="ds_host">经销店编号：</label>
+                    <div class="col-sm-2">
+                        <input class="form-control" type="text" readonly="readonly" name="Code" required="" />
+                    </div>
+                    <div class="col-sm-1" style="margin-top:10px;margin-left:-10px;">
+                        <a href="javascript:void" style="color:#000000;" onclick="btn_Dealer()">
+                            <i class="fa fa-plus">
+                            </i>选择
+                        </a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="ds_name">可录入最早发票日期：</label>
+                    <div class="col-sm-2">
+                        <input class="form-control " name="LastRepDateTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" type="text" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">录入权限开放截止日期：</label>
+                    <div class="col-sm-2">
+                        <input class="form-control " onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" name="InvoiceDateTime" type="text" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-sm btn-primary " onclick="btn_SearchAuthor();">
+                            <i class="fa fa-search">
+                            </i>
+                            查询期限
+                        </button>
+                    </div>
+                    <div class="col-sm-2" style="left:-100px;">
+                        <button type="button" class="btn btn-sm btn-primary" onclick="btn_SetAuthor();">
+                            <i class="fa fa-edit">
+                            </i>
+                            设置期限
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+<script src="../../Content/js/jquery.min.js"></script>
+<script src="../../Content/js/bootstrap.min.js"></script>
+<script src="../../Content/layer/layer.js"></script>
+<script src="../../Content/js/jquery.validate.min.js"></script>
+<script src="../../Content/js/messages_zh.min.js"></script>
+<script src="../../Content/DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+    // 选择经销店
+    var btn_Dealer = function () {
+        layer.open({
+            title: '<i class="fa fa-user"></i> 选择经销店',
+            scrollbar: false,   //浏览器滚动条已锁
+            type: 2,
+            area: ['920px', '680px'],
+            fix: true, //不固定
+            content: '../CommonPage/DealerList.html',
+            btn: ['选择'],
+            btnAlign: 'c',
+            yes: function (index, layero) {
+                // 选择按钮执行的方法
+                $('input[name=Code]').val(global.Code);
+                layer.close(index); //关掉指定层
+            }
+        });
+    }
+
+    // 选择经销店
+    var selDealer = function () {
+        var rowId = getRows("#dealerTable");
+        if (rowId == null) {
+            layer.alert('请至少选择一个客户！');
+            return;
+        }
+        else {
+            var rowData = $("#dealerTable").jqGrid('getRowData', rowId);
+            $("input[name=Code]").val(rowData.Code);
+            $('#DealerWindow').modal('hide');
+        }
+    }
+
+    // 查询期限
+    var btn_SearchAuthor = function () {
+        var flag = $('#from2').valid();
+        if (!flag) {
+            return;
+        }
+        else {
+            var SaveLoading = layer.msg('加载中，请稍候', { icon: 16, time: false, shade: 0.8 });
+            var param = $('#from2').serialize();
+            $.ajax({
+                url: '../../IServer/Dealer/Dealer.ashx?action=GetLastDate',
+                type: 'post',
+                async: false,
+                data: param,
+                dataType: 'json',
+                success: function (result) {
+                    var index = layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    if (result.success) {
+                        var dt = result.msg.split(",");
+                        $('input[name=LastRepDateTime]').val(dt[1]);
+                        $('input[name=InvoiceDateTime]').val(dt[0]);
+                        layer.close(SaveLoading);
+                    }
+                    else {
+                        layer.close(SaveLoading);
+                        layer.alert(data.msg);
+                    }
+                }, error: function (data) {
+                    layer.close(index);
+                }
+            });
+        }
+    }
+
+    // 设置期限
+    var btn_SetAuthor = function () {
+        var flag = $('#from2').valid();
+        if (!flag) {
+            return;
+        }
+        else {
+            var SaveLoading = layer.msg('加载中，请稍候', { icon: 16, time: false, shade: 0.8 });
+            var param = $('#from2').serialize();
+            $.ajax({
+                url: '../../IServer/Dealer/Dealer.ashx?action=SetLastDate',
+                type: 'post',
+                async: false,
+                data: param,
+                dataType: 'json',
+                success: function (result) {
+                    var index = layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    if (result.success) {
+                        layer.close(SaveLoading);
+                        layer.msg("设置时间成功");
+                    }
+                    else {
+                        layer.close(SaveLoading);
+                        layer.alert(data.msg);
+                    }
+                }, error: function (data) {
+                    layer.close(index);
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>经销店库存上报- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../Content/css/ui.jqgrid.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>经销店库存上报</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <!--<i class="fa fa-chevron-up"></i>-->
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="form-group">
+                <button id="btnAdd" type="button" class="btn btn-primary " onclick="AddDetail();"><i class="fa fa-plus"></i>&nbsp;添加</button>
+                <button id="btnEdit" type="button" class="btn btn-info " onclick="EditDetail();"><i class="fa fa-pencil"></i> 编辑</button>
+                <button id="btnDel" type="button" class="btn btn-danger " onclick="DeleteData()">
+                    <i class="fa fa-remove"></i>&nbsp;&nbsp;<span class="bold">删除</span>
+                </button>
+            </div>
+            <div class="form-group">
+                <label class="col-md-1 control-label" style="margin-top:10px;">查询条件:</label>
+                <div class="col-md-2" style="margin-left:-50px;">
+                    <input name="tfCondition" type="text" class="form-control" placeholder="搜索关键字" title="输入订单编号或客户名称" />
+                </div>
+                <label class="col-md-1 control-label" style="margin-top:10px;">年</label>
+                <div class="col-md-1" style="margin-left:-100px;">
+                    <select class="form-control m-b" name="cbYear">
+                        <option value="-1"></option>
+                    </select>
+                </div>
+                <label class="col-md-1 control-label" style="margin-top:10px;margin-left:-23px;">月</label>
+                <div class="col-md-1" style="margin-left:-100px; width: 100px;">
+                    <select class="form-control m-b" name="cbMonth">
+                        <option value="-1"></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+                <span class="input-group-btn">
+                    <button id="btnSearch" class="btn btn btn-primary" type="button"> <i class="fa fa-search"></i> 搜索</button>
+                </span>
+            </div>
+            <div class="jqGrid_wrapper">
+                <table id="table_list"></table>
+                <div id="pager_list"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 操作窗口 -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">编辑</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="from2">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="ds_host">客户：</label>
+                            <div class="col-md-2" style="margin-top:10px;">
+                                <a href="javascript:void" style="color:#000000;" onclick="SelectCus()">
+                                    <i class="fa fa-plus">
+                                    </i>选择
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10" style="margin-left:95px;">
+                                <input class="form-control" name="CustomerName" type="text" disabled required="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">车名：</label>
+                            <div class="col-md-4">
+                                <select class="form-control m-b" name="cboCarname"></select>
+                            </div>
+                            <label class="col-md-2 control-label" for="ds_name">库存月份：</label>
+                            <div class="col-md-4">
+                                <input class="form-control" name="StockDate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM',readOnly:true})" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="ds_name">库存数量：</label>
+                            <div class="col-md-4">
+                                <input class="form-control" name="StockNumber" type="text" required="" />
+                            </div>
+                        </div>
+                        <input type="hidden" name="opType" value="" />
+                        <input type="hidden" name="HidID" value="" />
+                        <input type="hidden" name="hidCustomerID" value="" />
+                        <input type="hidden" name="hidCode" value="" />
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align:center;">
+                    <button type="button" id="btn_submit" class="btn  btn-sm btn-primary" onclick="SaveData()">
+                        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="../../Content/js/jquery.min.js"></script>
+<script src="../../Content/js/bootstrap.min.js"></script>>
+<script src="../../Content/js/jquery.jqGrid.min.js"></script>
+<script src="../../Content/js/grid.locale-cn.js"></script>
+<script src="../../Static/script/Dealerstock.js"></script>
+<script src="../../Content/js/jquery.validate.min.js"></script>
+<script src="../../Content/js/messages_zh.min.js"></script>
+<script src="../../Static/script/Common.js"></script>
+<script src="../../Content/layer/layer.js"></script>
+<script src="../../Content/DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var now = new Date();
+        $('input[name=StockDate]').val(now.Format("yyyy-MM"));
+    });
+</script>

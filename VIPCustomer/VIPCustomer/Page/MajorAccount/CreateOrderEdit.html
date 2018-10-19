@@ -1,0 +1,621 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>订单管理- 一汽TOYOTA大客户管理系统</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../Content/css/ui.jqgrid.css" rel="stylesheet" />
+    <link href="../../Content/css/style.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="col-sm-12">
+        <div class="tabs-container">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#tab-1" aria-expanded="true">基本信息</a>
+                </li>
+                <li class="" onclick="tabClick(1)">
+                    <a data-toggle="tab" href="#tab-2" aria-expanded="false">车辆需求</a>
+                </li>
+                <li class="" onclick="tabClick(2)">
+                    <a data-toggle="tab" href="#tab-3" aria-expanded="false">经销店联系人</a>
+                </li>
+                <li class="" onclick="tabClick(3)">
+                    <a data-toggle="tab" href="#tab-4" aria-expanded="false">客户联系人</a>
+                </li>
+            </ul>
+            <!-- 基本信息 -->
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane active" style="margin-bottom:100px;">
+                    <form class="form-horizontal m-t" id="commentForm">
+                        <div class="panel panel-group">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapseTwo">
+                                        <span style="font-size:12px;">基本信息</span>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse collapse in">
+                                <div class="panel-body ">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label" for="ds_host">购买方式:</label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control m-b" name="BuyWay"></select>
+                                        </div>
+                                        <label class="col-sm-1 control-label">创建日期：</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" name="CreateTime" type="text" readonly="readonly" />
+                                        </div>
+                                        <label class="col-sm-1 control-label" for="ds_host">记录编号:</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" name="OrderNo" type="text" readonly="readonly" />
+                                        </div>
+                                        <label class="col-sm-1 control-label">采购类型：</label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control m-b" name="PurchaseType"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">记录状态:</label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control m-b" name="OrderState"></select>
+                                        </div>
+                                        <label class="col-sm-1 control-label" for="ds_host">购车用途:</label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control m-b" name="CarUse">
+                                                <option value="公牌">公牌</option>
+                                                <option value="私牌">私牌</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-md-1 control-label"></label>
+                                        <div class="col-sm-6">
+                                            <label><input type="checkbox" value="0" name="InvoiceDiffer" onclick="setCheckStatB()" disabled>  发票与客户不一致</label>
+                                            <label class="col-md-1 control-label"></label>
+                                            <div class="col-sm-3">
+                                                <label><input type="checkbox" value="0" name="OffAddressOnCardReport" onclick="setCheckStatA()"> 非本地上牌报备</label>
+                                                <input type="text" class="form-control" name="FN_InvoiceName" value="开票客户信息" readonly style="margin-top: -30px; margin-left: 430px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-1 control-label"></label>
+                                        <label><input type="checkbox" value="1" name="IsApplyMaxCustomerResources" checked>是否申请大客户资源</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-group">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapseTwo1">
+                                        <span style="font-size:12px;">客户基本信息</span>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo1" class="panel-collapse collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label" style="color:red;">选择客户:</label>
+                                        <div class="col-md-1" style="margin-top:10px;">
+                                            <a href="javascript:void" style="color:#000000;" onclick="SelCustomerAll()">
+                                                <i class="fa fa-check">
+                                                </i>选择
+                                            </a>
+                                        </div>
+                                        <div class="col-md-1" style="margin-top:10px;">
+                                            <a href="javascript:void" style="color:#000000;" onclick="AddCustomerAll()">
+                                                <i class="fa fa-plus">
+                                                </i>新增
+                                            </a>
+                                        </div>
+                                        <label class="col-sm-1 control-label">客户名称：</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" type="text" name="CustomerName" readonly="readonly" />
+                                        </div>
+                                        <label class="col-sm-1 control-label">客户类型：</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" name="CustomerType" type="text" readonly="readonly" />
+                                        </div>
+                                        <label class="col-sm-1 control-label">机构代码：</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" name="Code" type="text" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">电话：</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" type="text" name="Phone" readonly="readonly" />
+                                        </div>
+                                        <label class="col-sm-1 control-label">地址：</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" name="Address" type="text" readonly="readonly" />
+                                        </div>
+                                        <label class="col-sm-1 control-label">邮政编码：</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" name="Email" type="text" readonly="readonly" />
+                                        </div>
+                                        <label class="col-sm-1 control-label">传真：</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" name="Fax" type="text" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-group">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapseTwo2">
+                                        <span style="font-size:12px;">销售基本信息</span>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo2" class="panel-collapse collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label" style="color:red;">记录名称:</label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control m-b" name="RecordName"></select>
+                                        </div>
+                                        <label class="col-sm-1 control-label">制表人：</label>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" name="Watchmaker" type="text" readonly="readonly" />
+                                        </div>
+                                        <label class="col-md-1 control-label"></label>
+                                        <label><input type="checkbox" value="0" name="DifferentPlace" onclick="setCheckStatC()">需要异地交车（申请配车时需要确认该选项）</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-group">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapseTwo3">
+                                        <span style="font-size:12px;">回复意见</span>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo3" class="panel-collapse collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">FTMS回复</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">回复人：</label>
+                                            <div class="col-sm-2">
+                                                <input class="form-control" type="text" name="Replyer3" readonly="readonly" />
+                                            </div>
+                                            <label class="col-sm-1 control-label">回复意见：</label>
+                                            <div class="col-sm-2">
+                                                <input class="form-control" name="ReComment3" type="text" readonly="readonly" />
+                                            </div>
+                                            <label class="col-sm-1 control-label">回复日期：</label>
+                                            <div class="col-sm-2">
+                                                <input class="form-control" name="ReDate3" type="text" readonly="readonly" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label">回复备注：</label>
+                                        <div class="col-sm-6">
+                                            <textarea name="ReRemark3" class="form-control" readonly="readonly"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="opType" id="opType" value="" />
+                        <input type="hidden" name="hiddenDealerId" id="hiddenDealerId" value="" />
+                        <input type="hidden" name="hiddenCustomerId" id="hiddenCustomerId" value="" />
+                        <input type="hidden" id="opCarType" value="" />
+
+                        <input type="hidden" name="HidOrderID" id="HidOrderID" value="" />
+                    </form>
+                </div>
+                <!-- 车辆需求 -->
+                <div id="tab-2" class="tab-pane" style="margin-bottom:80px;">
+                    <div class="ibox-content" style="margin-left:-20px;">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary " id="btnAddCar" onclick="AddCarDetail()"><i class="fa fa-plus"></i>&nbsp;添加</button>
+                            <button type="button" class="btn btn-info " onclick="EditCarDetail();"><i class="fa fa-pencil"></i> 编辑</button>
+                            <button type="button" class="btn btn-danger " id="btnDelCar" onclick="DelCarDetail();">
+                                <i class="fa fa-remove"></i>&nbsp;&nbsp;<span class="bold">删除</span>
+                            </button>
+                            <button class="btn btn-success " type="button" onclick="btnUpload();">
+                                <i class="fa fa-upload"></i>&nbsp;&nbsp;<span class="bold">上传电子资料</span>
+                            </button>
+                        </div>
+                        <div class="jqGrid_wrapper">
+                            <table id="CarDemandTable"></table>
+                        </div>
+                    </div>
+                </div>
+                <!-- 经销店联系人 -->
+                <div id="tab-3" class="tab-pane" style="margin-bottom:100px;">
+                    <table id="dealerContactTable"></table>
+                    <div id="dealerContactPager"></div>
+                </div>
+
+                <!-- 客户联系人 -->
+                <div id="tab-4" class="tab-pane" style="margin-bottom:100px;">
+                    <div class="jqGrid_wrapper">
+                        <table id="CContactTable"></table>
+                        <div id="CContactPager"></div>
+                    </div>
+                </div>
+                <div class="form-group" style="text-align:center;position:absolute;bottom:30px;left:0;width:100%;">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <button class="btn btn-primary" id="btnSave" onclick="SaveAllData(false)">保存</button>
+                        <button class="btn btn-primary " id="btnSaveCommit" type="button"><i class="fa fa-check"></i>&nbsp;保存并提交</button>
+                        <button class="btn btn-white" id="cancle">取消</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- 车辆需求操作modal -->
+    <div class="modal fade" id="windows1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document" style="width:1000px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title1" id="exampleModalLabel"><i class="fa fa-user-md"></i>编辑</h4>
+                </div>
+                <div class="modal-body" style="height:500px;overflow-y:auto;">
+                    <form class="form-horizontal" method="post" id="CarDemandForm">
+                        <div class="form-group">
+                            <label class="col-md-1 control-label"></label>
+                            <div class="col-md-3" style="margin-top:10px;">
+                                <a href="javascript:void" style="color:#000000;" onclick="SelectCarShow()">
+                                    <i class="fa fa-plus">
+                                    </i>选择车辆
+                                </a>
+                            </div>
+                            <label class="col-md-1 control-label">颜色:</label>
+                            <div class="col-md-3">
+                                <select class="form-control " name="color" required="" aria-required="true"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label" style="color:red;">车名：</label>
+                            <div class="col-md-3">
+                                <input class="form-control" name="carName" type="text" readonly required="" aria-required="true" />
+                            </div>
+                            <label class="col-md-1 control-label">车型:</label>
+                            <div class="col-md-3">
+                                <input class="form-control" name="carModel" type="text" disabled />
+                            </div>
+                            <label class="col-md-1 control-label">E/G:</label>
+                            <div class="col-md-3">
+                                <input class="form-control" name="EG" type="text" disabled />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">SFX：</label>
+                            <div class="col-md-3">
+                                <input class="form-control" name="SFX" type="text" disabled />
+                            </div>
+                            <label class="col-md-1 control-label">数量:</label>
+                            <div class="col-md-3">
+                                <input class="form-control" name="Number" type="number" min="1" required="" aria-required="true" />
+                            </div>
+                            <label class="col-md-1 control-label">希望交车日期:</label>
+                            <div class="col-md-3">
+                                <input class="form-control datepicker" name="WantSubmitDate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">车辆用途：</label>
+                            <div class="col-md-3">
+                                <input class="form-control" name="carYongTu" type="text" />
+                            </div>
+                            <label class="col-md-1 control-label">其他需求：</label>
+                            <div class="col-md-3">
+                                <input class="form-control" name="OtherXuQiu" type="text" />
+                            </div>
+                            <label class="col-md-1 control-label">使用者：</label>
+                            <div class="col-md-3">
+                                <input class="form-control" name="Uses" type="text" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">异地交车经销店：</label>
+                            <div class="col-md-3">
+                                <input class="form-control" name="CatchCarDealerName" type="text" disabled />
+                            </div>
+                            <div class="col-md-1" style="margin-top:10px;">
+                                <a href="javascript:void(0)" style="color:#000000;" title="清空异地交车经销店" onclick="PayCarDealerSelect(0)">
+                                    <i class="fa fa-sticky-note-o">
+                                    </i>清空
+                                </a>
+                            </div>
+                            <div class="col-md-1" style="margin-top:10px;">
+                                <a href="javascript:void(0)" style="color:#000000;" title="选择异地交车经销店" onclick="PayCarDealerSelect(1)">
+                                    <i class="fa fa-plus">
+                                    </i>选择
+                                </a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">备注：</label>
+                            <div class="col-md-11">
+                                <textarea class="form-control" cols="20" data-val="true" name="Remark" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label class="col-md-8 control-label" style="color:red;">以下内容COASTER车型需要填写：</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">成都分室传真订单编号：</label>
+                            <div class="col-md-3">
+                                <input class="form-control FaxOrdersNo" name="FaxOrdersNo" type="text" />
+                            </div>
+                            <label class="col-md-1 control-label">TACT订单协议号：</label>
+                            <div class="col-md-6">
+                                <textarea class="form-control TactNo" cols="20" name="TactNo" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label class="col-md-8 control-label" style="color:red;">以下内容COASTER特装车车型需要填写：</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">行李架：</label>
+                            <div class="col-md-3">
+                                <input class="form-control" name="FN_Rack" type="text" />
+                            </div>
+                            <label class="col-md-1 control-label">窗帘加否(只高级车)：</label>
+                            <div class="col-md-3">
+                                <input class="form-control" name="FN_HasCurtain" type="text" />
+                            </div>
+                            <label class="col-md-1 control-label">座位铭牌数:</label>
+                            <div class="col-md-3">
+                                <input class="form-control" name="FN_SeatNumber" type="number" min="0" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">期望FTMS发车时间：</label>
+                            <div class="col-md-3">
+                                <input class="form-control datepicker" name="FN_FTMSSendDate" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" />
+                            </div>
+                            <label class="col-md-1 control-label">座位变更：</label>
+                            <div class="col-md-7">
+                                <textarea class="form-control" cols="20" data-val="true" name="FN_ChangeChair" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">其他要求：</label>
+                            <div class="col-md-11">
+                                <textarea class="form-control" cols="20" data-val="true" name="FN_OtherRequire" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align:center;">
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>取消
+                    </button>
+                    <button type="button" id="btn_submit" class="btn btn-sm btn-primary" onclick="SaveCarDetail();">
+                        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 上传资料modal -->
+    <div class="modal fade" id="uploadWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document" style="width:700px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel"><i class="fa fa-qrcode"></i>&nbsp;&nbsp;电子资料</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="ibox-title">
+                        <h5>附件要求JPG格式，大小不能超过500k。具体需要上传电子附件的客户类型，请以大客户室通知为准。</h5>
+                    </div>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">执照或组织机构代码证：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control projectfile" name="" type="text" value="未上传" readonly="readonly">
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="uploadFileAttachment(this);">
+                                    <i class="fa fa fa-upload">
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary">
+                                    <i class="fa fa fa-search">
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">在职证明：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text" value="未上传" readonly="readonly">
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="uploadFileAttachment(this);">
+                                    <i class="fa fa fa-upload">
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary">
+                                    <i class="fa fa fa-search">
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">身份证复印件：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text" value="未上传" readonly="readonly">
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="uploadFileAttachment(this);">
+                                    <i class="fa fa fa-upload">
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary">
+                                    <i class="fa fa fa-search">
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">定金扫描件：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text" value="未上传" readonly="readonly">
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="uploadFileAttachment(this);">
+                                    <i class="fa fa fa-upload">
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary">
+                                    <i class="fa fa fa-search">
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">采购协议或合同1：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text" value="未上传" readonly="readonly">
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="uploadFileAttachment(this);">
+                                    <i class="fa fa fa-upload">
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary">
+                                    <i class="fa fa fa-search">
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">采购协议或合同2：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text" value="未上传" readonly="readonly">
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="uploadFileAttachment(this);">
+                                    <i class="fa fa fa-upload">
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary">
+                                    <i class="fa fa fa-search">
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">采购协议或合同3：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text" value="未上传" readonly="readonly">
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="uploadFileAttachment(this);">
+                                    <i class="fa fa fa-upload">
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary">
+                                    <i class="fa fa fa-search">
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">采购协议或合同4：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text" value="未上传" readonly="readonly">
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="uploadFileAttachment(this);">
+                                    <i class="fa fa fa-upload">
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary">
+                                    <i class="fa fa fa-search">
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">采购协议或合同5：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="text" value="未上传" readonly="readonly">
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="uploadFileAttachment(this);">
+                                    <i class="fa fa fa-upload">
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" class="btn btn-sm btn-primary">
+                                    <i class="fa fa fa-search">
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align:center;">
+                    <button type="button" id="btn_submit" class="btn btn-sm btn-primary" data-dismiss="modal">
+                        <span aria-hidden="true"></span>
+                        <i class="fa fa-times-circle"></i> 关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="../../Content/js/jquery.min.js"></script>
+<script src="../../Content/js/bootstrap.min.js"></script>>
+<script src="../../Content/js/jquery.jqGrid.min.js"></script>
+<script src="../../Content/js/grid.locale-cn.js"></script>
+<script src="../../Static/script/CreateOrder.js"></script>
+<script src="../../Content/layer/layer.js"></script>
+<script src="../../Static/script/Common.js"></script>
+<script src="../../Content/DatePicker/WdatePicker.js"></script>
+<script src="../../Content/js/jquery.validate.min.js"></script>
+<script src="../../Content/js/messages_zh.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var now = new Date();
+        $('input[name=WantSubmitDate]').val(now.Format("yyyy-MM-dd"));
+        $('input[name=FN_FTMSSendDate]').val(now.Format("yyyy-MM-dd"));
+    });
+</script>
